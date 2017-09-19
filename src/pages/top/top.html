@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      トップ
+    </ion-title>
+      <ion-buttons end>
+        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>
+      </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding id="page2">
+  <p>{{username}}さんは現在２つの仮想通貨を所持しています</p>
+  <ion-list id="page2-list2" >
+    <ion-item color="none" id="page2-list-item6">
+      <ion-avatar item-left>
+        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />
+      </ion-avatar>
+      <h2>ビットコイン</h2>
+      <p>代表的な仮想通貨</p>
+      <p clear item-end>{{ bit_balance }} BTC</p>
+    </ion-item>
+
+    <ion-item color="none" id="page2-list-item7">
+      <ion-avatar item-left>
+        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />
+      </ion-avatar>
+      <h2>マルコイン</h2>
+      <p>戸本・清田商店で使える仮想通貨</p>
+      <p clear item-end>{{ maru_balance }} MC</p>
+    </ion-item>
+  </ion-list>
+  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">
+
+    <!--
+    <ion-card *ngIf="getBitbalance()">
+      <ion-card-content>
+        <p>Value: {{ bit_balance }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card *ngIf="getMarubalance()">
+      <ion-card-content>
+        <p>Value: {{ maru_balance }}</p>
+      </ion-card-content>
+    </ion-card>
+    -->
+  </div>
+  <button (click) = "reload()">reload</button>
+</ion-content>

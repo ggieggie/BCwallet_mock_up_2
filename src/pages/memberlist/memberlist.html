@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      送金先を選択してください。
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button (click)="returntabs()" color="primary">キャンセル</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item (click)="send()" *ngFor="let user of users">
+      <ion-avatar item-left>
+        <img [src]="user.avatar_url">
+      </ion-avatar>
+      <h2>id : {{ user.id }}</h2>
+      <h2>name : {{ user.login }}</h2>
+    </button>
+  </ion-list>
+</ion-content>

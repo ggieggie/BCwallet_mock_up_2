@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      受送金
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding id="page3">
+  <div id="page3-markdown3" style="text-align:center;" class="show-list-numbers-and-dots">
+    <p>
+      URL（QRコード）を通して仮想通貨を受け取ったり、相手に送金することができます。
+    </p>
+  </div>
+  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">
+    <!--
+     <ion-item>
+      //今はここに打ち込みテストしていますが、URLは内部でゲットしてくるようにします
+        <ion-input type="text" placeholder="MY QR Code data" [(ngModel)]="qrData">
+        </ion-input>
+     </ion-item>
+    -->
+    <button ion-button full icon-left (click)="createCode()"><ion-icon name="apps"></ion-icon>自分のURLを表示</button>
+
+    <ion-card *ngIf="createdCode">
+      <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+      <ion-card-content>
+        <p>あなたのアドレス: {{ createdCode }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <button ion-button full icon-left (click)="scanCode_main()" color="secondary"><ion-icon name="qr-scanner"></ion-icon>URLをスキャンして送金</button>
+    <button ion-button full icon-left (click)="selectCode_main()" color="secondary"><ion-icon name="albums"></ion-icon>URLを選択して送金</button>
+
+    <ion-card *ngIf="scannedCode">
+      <ion-card-content>
+        Result from Scan: {{ scannedCode }}
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>

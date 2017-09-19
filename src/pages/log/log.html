@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      取引履歴
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <button ion-item *ngFor="let log of logs">
+      <ion-avatar item-left>
+        <img [src]="log.avatar_url">
+      </ion-avatar>
+      <h2>id : {{ log.id }}</h2>
+      <h2>name : {{ log.login }}</h2>
+    </button>
+  </ion-list>
+</ion-content>
