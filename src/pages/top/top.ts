@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { NavController, IonicPage } from 'ionic-angular';
+import { NavController, ModalController, IonicPage } from 'ionic-angular';
+import { AngularFire } from 'angularfire2';
 
 //import { AuthService } from '../../providers/auth-service/auth-service';
 import 'rxjs/add/operator/map';
@@ -12,27 +13,23 @@ import { LoginPage } from '../login/login';
   templateUrl: 'top.html'
 })
 export class TopPage {
-//インスタンス
+
+  //インスタンス
   username = '';
   email = '';
   bit_balance = null;
   maru_balance = null;
+ 
 
-//コンストラクタ
-  constructor(public navCtrl: NavController, public http: Http
-    //, private auth: AuthService
-  ) {
+  //コンストラクタ
+  constructor(public navCtrl: NavController, public http: Http, 
+    public angularFire: AngularFire, public modalCtrl: ModalController) {
 
-    //ユーザー情報取得
-    //let info = this.auth.getUserInfo();
-    //this.username = info['name'];
-    //this.email = info['email'];
+      //bitcoin残高確認
+      this.getBitbalance();
 
-    //bitcoin残高確認
-    this.getBitbalance();
-
-    //marucoin残高確認
-    this.getMarubalance();
+      //marucoin残高確認
+      this.getMarubalance();
    }
 
   //topのreloadボタン用関数
@@ -70,13 +67,10 @@ export class TopPage {
       });
   }
 
-  /*
   //ログアウト
   public logout() {
-    this.auth.logout().subscribe(succ => {
-      this.navCtrl.setRoot(LoginPage)
-    });
+    this.angularFire.auth.logout();
+    let loginModal = this.modalCtrl.create(LoginPage,{},{"enableBackdropDismiss":false});
+    loginModal.present();
   }
-  */
-
 }

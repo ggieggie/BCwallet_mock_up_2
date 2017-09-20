@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
-import {AngularFire} from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 
 //import { AuthService } from '../../providers/auth-service/auth-service';
 
@@ -16,11 +16,31 @@ export class LoginPage {
   email: string;
   password: string;
   loading: Loading;
+  talks: FirebaseListObservable<any>;
+  content: string;
+  private authState: FirebaseAuthState;
 
   //コンストラクタ
   constructor(private navCtrl: NavController, private alertCtrl: AlertController,
     private loadingCtrl: LoadingController, public navParams: NavParams,
-    public angularFire: AngularFire, public viewCtrl: ViewController) { }
+    public angularFire: AngularFire, public viewCtrl: ViewController) {
+
+      //認証
+      angularFire.auth.subscribe((state : FirebaseAuthState) => {
+        this.authState = state;
+        console.log("auth" +JSON.stringify(state));
+    
+        if(this.authState != null) {
+          // 認証情報がnullでない場合（認証できている場合） データを取得
+          angularFire.database.list('/talks').subscribe(
+            value => this.navCtrl.push(TabsPage),
+            error => console.log("error")
+          );
+        } else {
+          // 認証情報がnullの場合（認証できていない場合） 何もしない
+        }
+      });
+    }
 
   //アカウント作成
   public createAccount() {
@@ -48,6 +68,7 @@ export class LoginPage {
     });
   }
 
+  /*
   //ローディング表示
   showLoading() {
     this.loading = this.loadingCtrl.create({
@@ -57,7 +78,6 @@ export class LoginPage {
     this.loading.present();
   }
 
-  /*
   //エラー表示
   showError(text) {
     //this.loading.dismiss();

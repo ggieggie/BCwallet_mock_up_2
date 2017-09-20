@@ -15,6 +15,7 @@ export class RegisterPage {
 　//インスタンス
   email: string;
   password: string;
+  displayName: string;
 
   //コンストラクタ
   constructor(private navCtrl: NavController, private alertCtrl: AlertController,
