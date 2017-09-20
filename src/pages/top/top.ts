@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController, IonicPage } from 'ionic-angular';
 
-import { AuthService } from '../../providers/auth-service/auth-service';
+//import { AuthService } from '../../providers/auth-service/auth-service';
 import 'rxjs/add/operator/map';
 import { LoginPage } from '../login/login';
 
@@ -19,11 +19,14 @@ export class TopPage {
   maru_balance = null;
 
 //コンストラクタ
-  constructor(public navCtrl: NavController, public http: Http, private auth: AuthService) {
+  constructor(public navCtrl: NavController, public http: Http
+    //, private auth: AuthService
+  ) {
+
     //ユーザー情報取得
-    let info = this.auth.getUserInfo();
-    this.username = info['name'];
-    this.email = info['email'];
+    //let info = this.auth.getUserInfo();
+    //this.username = info['name'];
+    //this.email = info['email'];
 
     //bitcoin残高確認
     this.getBitbalance();
@@ -67,11 +70,13 @@ export class TopPage {
       });
   }
 
+  /*
   //ログアウト
   public logout() {
     this.auth.logout().subscribe(succ => {
       this.navCtrl.setRoot(LoginPage)
     });
   }
+  */
 
 }

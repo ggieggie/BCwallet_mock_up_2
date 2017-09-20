@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
-import { AuthService } from '../../providers/auth-service/auth-service';
+import { NavController, NavParams, ViewController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
+import {AngularFire} from 'angularfire2';
+
+//import { AuthService } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -9,12 +11,16 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'login.html',
 })
 export class LoginPage {
+
   //インスタンス
+  email: string;
+  password: string;
   loading: Loading;
-  registerCredentials = { email: '', password: '' };
 
   //コンストラクタ
-  constructor(private navCtrl: NavController, private auth: AuthService, private alertCtrl: AlertController, private loadingCtrl: LoadingController) { }
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController, public navParams: NavParams,
+    public angularFire: AngularFire, public viewCtrl: ViewController) { }
 
   //アカウント作成
   public createAccount() {
@@ -22,18 +28,24 @@ export class LoginPage {
   }
 
   //ログイン処理
-  public login() {
-    this.showLoading()
-    this.auth.login(this.registerCredentials).subscribe(allowed => {
-      if (allowed) {
-        this.navCtrl.setRoot(TabsPage);
-      } else {
-        this.showError("Access Denied");
-      }
-    },
-      error => {
-        this.showError(error);
-      });
+  login() {
+    //this.showLoading()
+    this.angularFire.auth.login({
+      email: this.email,
+      password: this.password
+    }).then(res => {
+      console.log(res)     
+      this.navCtrl.push(TabsPage);
+    }).catch(err => {
+      let alert = this.alertCtrl.create({
+        title: 'ログインエラー',
+        subTitle: String(err),
+        buttons: ['OK']
+        });
+   
+      alert.present();
+      console.log(err);
+    });
   }
 
   //ローディング表示
@@ -45,9 +57,10 @@ export class LoginPage {
     this.loading.present();
   }
 
+  /*
   //エラー表示
   showError(text) {
-    this.loading.dismiss();
+    //this.loading.dismiss();
 
     let alert = this.alertCtrl.create({
       title: 'Fail',
@@ -56,4 +69,5 @@ export class LoginPage {
     });
     alert.present(prompt);
   }
+  */
 }

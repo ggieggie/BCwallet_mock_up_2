@@ -18,7 +18,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-import { AuthService } from '../providers/auth-service/auth-service';
+//import { AuthService } from '../providers/auth-service/auth-service';
 
 import { AccountPage } from '../pages/account/account';
 import { SupportPage } from '../pages/support/support';
@@ -26,6 +26,18 @@ import { TutorialPage } from '../pages/tutorial/tutorial';
 
 import { GithubUsersService } from '../providers/github-users-service/github-users-service';
 import { LogService } from '../providers/log-service/log-service';
+
+import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
+import { RegisterPageModule } from '../pages/register/register.module';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBj1l9IqIg-3OlgpS1wnS5xXcbYE4cdDmc",
+  authDomain: "marucoin-9b.firebaseapp.com",
+  databaseURL: "https://marucoin-9b.firebaseio.com",
+  projectId: "marucoin-9b",
+  storageBucket: "marucoin-9b.appspot.com",
+  messagingSenderId: "482806641126"
+};
 
 @NgModule({
   declarations: [
@@ -36,7 +48,7 @@ import { LogService } from '../providers/log-service/log-service';
     TransactionPage,
     LogPage,
     TabsPage,
-    RegisterPage,
+    //RegisterPage,
     AccountPage,
     SupportPage,
     TutorialPage,
@@ -46,7 +58,12 @@ import { LogService } from '../providers/log-service/log-service';
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    NgxQRCodeModule
+    NgxQRCodeModule,
+    RegisterPageModule,
+    AngularFireModule.initializeApp(firebaseConfig,{
+      provider: AuthProviders.Password,
+      method: AuthMethods.Password
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -68,7 +85,7 @@ import { LogService } from '../providers/log-service/log-service';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
-    AuthService,
+    //AuthService,
     GithubUsersService,
     LogService
   ]

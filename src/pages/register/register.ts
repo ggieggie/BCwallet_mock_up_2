@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, AlertController, IonicPage } from 'ionic-angular';
-import { AuthService } from '../../providers/auth-service/auth-service';
+import { NavController, NavParams, ViewController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
+import { AngularFire } from 'angularfire2';
+import { TabsPage } from '../tabs/tabs';
+
+//import { AuthService } from '../../providers/auth-service/auth-service';
 
 @IonicPage()
 @Component({
@@ -8,45 +11,35 @@ import { AuthService } from '../../providers/auth-service/auth-service';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
+  
 　//インスタンス
-  createSuccess = false;
-  registerCredentials = { email: '', password: '' };
+  email: string;
+  password: string;
 
   //コンストラクタ
-  constructor(private nav: NavController, private auth: AuthService, private alertCtrl: AlertController) { }
+  constructor(private navCtrl: NavController, private alertCtrl: AlertController,
+    private loadingCtrl: LoadingController, public navParams: NavParams,
+    public angularFire: AngularFire, public viewCtrl: ViewController) { }
 
   //登録処理
-  public register() {
-    this.auth.register(this.registerCredentials).subscribe(success => {
-      if (success) {
-        this.createSuccess = true;
-        //文字コードバケで動かない
-        this.showPopup("Success", "Account created.");
-      } else {
-        this.showPopup("Error", "Problem creating account.");
-      }
-    },
-      error => {
-        this.showPopup("Error", error);
+  createUser() {
+    this.angularFire.auth.createUser({
+      email: this.email,
+      password: this.password
+    }).then(_ => {
+      let alert = this.alertCtrl.create({
+        title: '完了',
+        subTitle: 'ユーザが作成されました。',
+        buttons: ['OK']
       });
-  }
-
-  //ポップアップ表示
-  showPopup(title, text) {
-    let alert = this.alertCtrl.create({
-      title: title,
-      subTitle: text,
-      buttons: [
-        {
-          text: 'OK',
-          handler: data => {
-            if (this.createSuccess) {
-              this.nav.popToRoot();
-            }
-          }
-        }
-      ]
+      this.navCtrl.push(TabsPage);      
+    }).catch(err => {
+      let alert = this.alertCtrl.create({
+        title: 'エラー',
+        subTitle: String(err),
+        buttons: ['OK']
+      });
+        alert.present();          
     });
-    alert.present();
   }
 }
