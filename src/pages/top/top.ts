@@ -25,12 +25,16 @@ export class TopPage {
   constructor(public navCtrl: NavController, public http: Http, 
     public angularFire: AngularFire, public modalCtrl: ModalController) {
 
-      //bitcoin残高確認
-      this.getBitbalance();
+      if(this.bit_balance == null){
 
-      //marucoin残高確認
-      this.getMarubalance();
-   }
+        //bitcoin残高確認
+        this.getBitbalance();
+
+        //marucoin残高確認
+        this.getMarubalance();
+        console.log("constructor");
+      }
+  }
 
   //topのreloadボタン用関数
   reload(){

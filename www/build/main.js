@@ -40,10 +40,13 @@ var TopPage = (function () {
         this.email = '';
         this.bit_balance = null;
         this.maru_balance = null;
-        //bitcoin残高確認
-        this.getBitbalance();
-        //marucoin残高確認
-        this.getMarubalance();
+        if (this.bit_balance == null) {
+            //bitcoin残高確認
+            this.getBitbalance();
+            //marucoin残高確認
+            this.getMarubalance();
+            console.log("constructor");
+        }
     }
     //topのreloadボタン用関数
     TopPage.prototype.reload = function () {
@@ -80,10 +83,9 @@ var TopPage = (function () {
     };
     //ログアウト
     TopPage.prototype.logout = function () {
+        this.angularFire.auth.logout();
         var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
         loginModal.present();
-        this.angularFire.auth.logout();
-        //this.navCtrl.setRoot(LoginPage);
     };
     return TopPage;
 }());
@@ -92,10 +94,10 @@ TopPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんは現在２つの仮想通貨を所持しています</p>\n  <ion-list id="page2-list2" >\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n\n    <!--\n    <ion-card *ngIf="getBitbalance()">\n      <ion-card-content>\n        <p>Value: {{ bit_balance }}</p>\n      </ion-card-content>\n    </ion-card>\n\n    <ion-card *ngIf="getMarubalance()">\n      <ion-card-content>\n        <p>Value: {{ maru_balance }}</p>\n      </ion-card-content>\n    </ion-card>\n    -->\n  </div>\n  <button (click) = "reload()">reload</button>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */],
-        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */]) === "function" && _d || Object])
 ], TopPage);
 
+var _a, _b, _c, _d;
 //# sourceMappingURL=top.js.map
 
 /***/ }),
