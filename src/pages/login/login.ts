@@ -28,19 +28,18 @@ export class LoginPage {
       //認証
       angularFire.auth.subscribe((state : FirebaseAuthState) => {
         this.authState = state;
-        console.log("auth" +JSON.stringify(state));
+        console.log("check auth state:" +JSON.stringify(state));
     
         if(this.authState != null) {
+          
           // 認証情報がnullでない場合（認証できている場合） データを取得
-          angularFire.database.list('/talks').subscribe(
-            value => this.navCtrl.push(TabsPage),
-            error => console.log("error")
-          );
+          this.navCtrl.push(TabsPage);
         } else {
           // 認証情報がnullの場合（認証できていない場合） 何もしない
+          console.log('stay login page');
         }
       });
-    }
+  }
 
   //アカウント作成
   public createAccount() {
@@ -49,12 +48,13 @@ export class LoginPage {
 
   //ログイン処理
   login() {
+    console.log('login');
     //this.showLoading()
     this.angularFire.auth.login({
       email: this.email,
       password: this.password
     }).then(res => {
-      console.log(res)     
+      console.log('res'+res)     
       this.navCtrl.push(TabsPage);
     }).catch(err => {
       let alert = this.alertCtrl.create({

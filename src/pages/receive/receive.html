@@ -24,19 +24,19 @@
     -->
     <button ion-button full icon-left (click)="createCode()"><ion-icon name="apps"></ion-icon>自分のURLを表示</button>
 
-    <ion-card *ngIf="createdCode">
-      <ngx-qrcode [qrc-value]="createdCode"></ngx-qrcode>
+    <ion-card *ngIf="myQr">
+      <ngx-qrcode [qrc-value]="myAddress"></ngx-qrcode>
       <ion-card-content>
-        <p>あなたのアドレス: {{ createdCode }}</p>
+        <p>あなたのアドレス: {{ myAddress }}</p>
       </ion-card-content>
     </ion-card>
 
     <button ion-button full icon-left (click)="scanCode_main()" color="secondary"><ion-icon name="qr-scanner"></ion-icon>URLをスキャンして送金</button>
     <button ion-button full icon-left (click)="selectCode_main()" color="secondary"><ion-icon name="albums"></ion-icon>URLを選択して送金</button>
 
-    <ion-card *ngIf="scannedCode">
+    <ion-card *ngIf="yourAddress">
       <ion-card-content>
-        Result from Scan: {{ scannedCode }}
+        Result from Scan: {{ yourAddress }}
       </ion-card-content>
     </ion-card>
   </div>

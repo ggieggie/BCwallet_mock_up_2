@@ -29,6 +29,7 @@ import { LogService } from '../providers/log-service/log-service';
 
 import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { RegisterPageModule } from '../pages/register/register.module';
+import { Firebase } from '@ionic-native/firebase';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBj1l9IqIg-3OlgpS1wnS5xXcbYE4cdDmc",
@@ -87,7 +88,8 @@ export const firebaseConfig = {
     BarcodeScanner,
     //AuthService,
     GithubUsersService,
-    LogService
+    LogService,
+    Firebase
   ]
 })
 export class AppModule {

@@ -1,10 +1,8 @@
 import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { AlertController, NavController  } from 'ionic-angular';
-
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-
 import { MemberlistPage } from '../memberlist/memberlist';
 
 @Component({
@@ -12,31 +10,31 @@ import { MemberlistPage } from '../memberlist/memberlist';
   templateUrl: 'receive.html'
 })
 export class ReceivePage {
-  qrData = "1Zz3rAJ5mBTQepG5uJbkuvF79f3FaKvmyR7f3r";
-  createdCode = null;
-  scannedCode = null;
+  myAddress = "";
+  myQr = null;
+  yourAddress = null;
   testRadioOpen: boolean;
   testRadioResult;
-  //送金テスト用のアドレス。両方ノード[０]のアドレス
-  testMyadress = "1Zz3rAJ5mBTQepG5uJbkuvF79f3FaKvmyR7f3r"
-  testYouradress = "18ZbcevCh61jtkVbQ1tdwCWEg2kxrW8GULBCQv"
   send_amount = 0;
 
 
 　//コンストラクタ
-  constructor(private barcodeScanner: BarcodeScanner, public alertCtrl: AlertController, public navCtrl: NavController, public http: Http) {
+  constructor(private barcodeScanner: BarcodeScanner, public alertCtrl: AlertController,
+     public navCtrl: NavController, public http: Http) {
+
+      this.getProfile();
+
   }
-  //constructor(public alertCtrl: AlertController) { }
 
   //QRコードの作成
   createCode() {
-    this.createdCode = this.qrData;
+    this.myQr = !this.myQr;
   }
 
   //QRコードの読み取り
   scanCode() {
     this.barcodeScanner.scan().then(barcodeData => {
-      this.scannedCode = barcodeData.text;
+      this.yourAddress = barcodeData.text;
     }, (err) => {
         console.log('Error: ', err);
     });
@@ -81,10 +79,7 @@ export class ReceivePage {
         var options = new RequestOptions({ "headers": headers });
         var body = {
          "method"  : "sendfromaddress",
-
-         //パラメータを修正しました
-         //params  : [this.testMyadress, this.testYouradress, this.send_amount],
-         "params"  : [this.testMyadress, this.testYouradress, {"marucoin":Number(this.send_amount)}],
+         "params"  : [this.myAddress, this.yourAddress, {"marucoin":Number(this.send_amount)}],
          "id"    : 0,
          "chain_name": "chain1"
         }
@@ -92,9 +87,6 @@ export class ReceivePage {
           .map(response => response.json())
           .subscribe(result => {
             console.log("data: "+JSON.stringify(result));
-            //console.log("data: "+JSON.stringify(result.result[0].qty));
-            //console.log("data: "+JSON.stringify(result.result[0].name));
-            //this.maru_balance = JSON.stringify(result.result[0].qty);
            }, error => {
             console.log(error);// Error getting the data
           });
@@ -105,7 +97,6 @@ export class ReceivePage {
 showRadio() {
     let alert = this.alertCtrl.create();
     alert.setTitle('送金先を選択');
-
 
          alert.addInput({
            type: 'radio',
@@ -167,6 +158,10 @@ showRadio() {
    this.navCtrl.setRoot(MemberlistPage);
   }
 
-
+//情報取得
+public getProfile() {
+  var user = firebase.auth().currentUser;
+  this.myAddress = user.photoURL;
+}
 
 }
