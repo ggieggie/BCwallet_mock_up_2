@@ -13,8 +13,8 @@
 </ion-header>
 
 <ion-content padding id="page2">
-  <p>{{username}}さんは現在２つの仮想通貨を所持しています</p>
-  <ion-list id="page2-list2" >
+  <p>{{username}}さんの所持する仮想通貨</p>
+  <ion-list id="page2-list2">
     <ion-item color="none" id="page2-list-item6">
       <ion-avatar item-left>
         <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />
@@ -34,20 +34,6 @@
     </ion-item>
   </ion-list>
   <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">
-
-    <!--
-    <ion-card *ngIf="getBitbalance()">
-      <ion-card-content>
-        <p>Value: {{ bit_balance }}</p>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card *ngIf="getMarubalance()">
-      <ion-card-content>
-        <p>Value: {{ maru_balance }}</p>
-      </ion-card-content>
-    </ion-card>
-    -->
   </div>
   <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  
 </ion-content>

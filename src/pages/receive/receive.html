@@ -11,7 +11,7 @@
 <ion-content padding id="page3">
   <div id="page3-markdown3" style="text-align:center;" class="show-list-numbers-and-dots">
     <p>
-      URL（QRコード）を通して仮想通貨を受け取ったり、相手に送金することができます。
+      アドレス（QRコード）を通して仮想通貨を受け取ったり、送金することができます。
     </p>
   </div>
   <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">
@@ -22,7 +22,7 @@
         </ion-input>
      </ion-item>
     -->
-    <button ion-button full icon-left (click)="createCode()"><ion-icon name="apps"></ion-icon>自分のURLを表示</button>
+    <button ion-button full icon-left (click)="createCode()"><ion-icon name="apps"></ion-icon>自分のアドレスを表示</button>
 
     <ion-card *ngIf="myQr">
       <ngx-qrcode [qrc-value]="myAddress"></ngx-qrcode>
@@ -31,12 +31,12 @@
       </ion-card-content>
     </ion-card>
 
-    <button ion-button full icon-left (click)="scanCode_main()" color="secondary"><ion-icon name="qr-scanner"></ion-icon>URLをスキャンして送金</button>
+    <button ion-button full icon-left (click)="scanCode_main()" color="secondary"><ion-icon name="qr-scanner"></ion-icon>QRコードをスキャンして送金</button>
     <button ion-button full icon-left (click)="selectCode_main()" color="secondary"><ion-icon name="albums"></ion-icon>宛先を選択して送金</button>
 
     <ion-card *ngIf="yourAddress">
       <ion-card-content>
-        Result from Scan: {{ yourAddress }}
+        Scanned: {{ yourAddress }}
       </ion-card-content>
     </ion-card>
   </div>
