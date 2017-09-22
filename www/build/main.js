@@ -240,7 +240,7 @@ var LogPage = (function () {
         this.getProfile();
         this.listTransactions();
     }
-    //マルコインの送信
+    //履歴確認
     LogPage.prototype.listTransactions = function () {
         var _this = this;
         var headers = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
@@ -256,11 +256,18 @@ var LogPage = (function () {
         this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
             .map(function (response) { return response.json(); })
             .subscribe(function (result) {
-            console.log("transactions: " + JSON.stringify(result.result[1].balance.assets[0].qty));
-            console.log("transactions: " + JSON.stringify(result.result[1].addresses[0]));
-            console.log("transactions: " + JSON.stringify(result.result));
-            var temp = result.result.splice(0, 1);
-            _this.logs = result.result;
+            console.log("transactions: " + JSON.stringify(result));
+            console.log("transactions: " + JSON.stringify(result.result[1]));
+            if (!JSON.stringify(result.result[1])) {
+                console.log("no log");
+            }
+            else {
+                console.log("transactions: " + JSON.stringify(result.result[1].balance.assets[0].qty));
+                console.log("transactions: " + JSON.stringify(result.result[1].addresses[0]));
+                console.log("transactions: " + JSON.stringify(result.result));
+                var temp = result.result.splice(0, 1);
+                _this.logs = result.result;
+            }
         }, function (error) { return console.log(error); }, // Error getting the data
         function () { });
     };

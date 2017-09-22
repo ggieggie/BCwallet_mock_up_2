@@ -22,7 +22,7 @@ export class LogPage {
       this.listTransactions()
   }
 
-  //マルコインの送信
+  //履歴確認
   listTransactions(){
     var headers = new Headers();
     headers.append('Content-Type', 'application/json' );
@@ -37,11 +37,18 @@ export class LogPage {
     this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
       .map(response => response.json())
       .subscribe(result => {
+        console.log("transactions: "+JSON.stringify(result));
+        console.log("transactions: "+JSON.stringify(result.result[1]));
+        
+        if(!JSON.stringify(result.result[1])) {
+          console.log("no log");
+        }else{
         console.log("transactions: "+JSON.stringify(result.result[1].balance.assets[0].qty));
         console.log("transactions: "+JSON.stringify(result.result[1].addresses[0]));        
         console.log("transactions: "+JSON.stringify(result.result));                
         var temp = result.result.splice(0,1);
         this.logs = result.result
+        }
         }, 
         error => console.log(error),// Error getting the data
        () => {});
