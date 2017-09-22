@@ -15,16 +15,13 @@ import 'rxjs/add/operator/map';
 
 export class MemberlistPage {
   users: User[];
-
-  qrData = "1Zz3rAJ5mBTQepG5uJbkuvF79f3FaKvmyR7f3r";
   createdCode = null;
   scannedCode = null;
   testRadioOpen: boolean;
   testRadioResult;
-  //送金テスト用のアドレス。両方ノード[０]のアドレス
-  testMyadress = "1Zz3rAJ5mBTQepG5uJbkuvF79f3FaKvmyR7f3r"
-  testYouradress = "18ZbcevCh61jtkVbQ1tdwCWEg2kxrW8GULBCQv"
   send_amount = 0;
+  myAddress = "";
+  yourAddress = "";
 
   constructor(public navCtrl: NavController, public alertCtrl: AlertController, private githubUsersSevice: GithubUsersService, public http: Http) {
     githubUsersSevice.getUsers()
@@ -65,6 +62,9 @@ export class MemberlistPage {
           text: '送金',
           handler: data => {
             this.send_amount = data.input_amount;
+            console.log('qty: '+this.send_amount);
+            console.log('myAdd: '+this.myAddress);
+            console.log('yourAdd: '+this.yourAddress);            
             this.send_marucoin();
             console.log('Saved clicked');
             }
@@ -82,10 +82,7 @@ export class MemberlistPage {
         var options = new RequestOptions({ "headers": headers });
         var body = {
          "method"  : "sendfromaddress",
-
-         //パラメータを修正しました
-         //params  : [this.testMyadress, this.testYouradress, this.send_amount],
-         "params"  : [this.testMyadress, this.testYouradress, {"marucoin":Number(this.send_amount)}],
+         "params"  : [this.myAddress, this.yourAddress, {"marucoin":Number(this.send_amount)}],
          "id"    : 0,
          "chain_name": "chain1"
         }

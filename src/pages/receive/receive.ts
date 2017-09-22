@@ -43,8 +43,8 @@ export class ReceivePage {
   //送金プロンプトの表示
   showPrompt() {
     let prompt = this.alertCtrl.create({
-      title: 'このURLに送金',
-      message: "送金するコインとその金額を入力してください",
+      title: 'このアドレスに送金',
+      message: "送金する金額を入力してください",
       inputs: [
         {
           name: 'input_amount',
@@ -62,6 +62,9 @@ export class ReceivePage {
           text: '送金',
           handler: data => {
             this.send_amount = data.input_amount;
+            console.log('qty: '+this.send_amount);
+            console.log('myAdd: '+this.myAddress);
+            console.log('yourAdd: '+this.yourAddress);            
             this.send_marucoin();
             console.log('Saved clicked');
             }
@@ -96,7 +99,7 @@ export class ReceivePage {
 //送信相手リストの表示
 showRadio() {
     let alert = this.alertCtrl.create();
-    alert.setTitle('送金先を選択');
+    alert.setTitle('宛先を選択');
 
          alert.addInput({
            type: 'radio',
@@ -131,7 +134,7 @@ showRadio() {
          alert.addInput({
            type: 'radio',
            label: '清田　雄平',
-           value: "18ZbcevCh61jtkVbQ1tdwCWEg2kxrW8GULBCQv"
+           value: "1Zz3rAJ5mBTQepG5uJbkuvF79f3FaKvmyR7f3r"
          });
 
      alert.addButton('キャンセル');
@@ -139,29 +142,30 @@ showRadio() {
        text: 'OK',
        handler: data => {
          this.testRadioOpen = false;
-         this.testRadioResult = data;
+         console.log("data: "+data);
+         this.yourAddress = data;
          this.showPrompt();
        }
      });
      alert.present();
     }
 
-//QRコードから相手と繋がって中電コインを送る
-  scanCode_main(){
-   this.scanCode();
-   this.showPrompt();
+  //QRコードから相手と繋がって中電コインを送る
+  scanCode_main() {
+    this.scanCode();
+    this.showPrompt();
   }
 
-//送信リストから相手を選んで中電コインを送る
-  selectCode_main(){
-   //this.showRadio();
-   this.navCtrl.setRoot(MemberlistPage);
+  //送信リストから相手を選んで中電コインを送る
+  selectCode_main() {
+    this.showRadio();
+    //this.navCtrl.setRoot(MemberlistPage);
   }
 
-//情報取得
-public getProfile() {
-  var user = firebase.auth().currentUser;
-  this.myAddress = user.photoURL;
-}
+  //情報取得
+  public getProfile() {
+    var user = firebase.auth().currentUser;
+    this.myAddress = user.photoURL;
+  }
 
 }
