@@ -13,7 +13,7 @@
   <ion-list>
     <button ion-item (click)="send()" *ngFor="let user of users">
       <ion-avatar item-left>
-        <img [src]="user.avatar_url">
+        <img src = "assets/img/none.png">
       </ion-avatar>
       <h2>id : {{ user.id }}</h2>
       <h2>name : {{ user.login }}</h2>

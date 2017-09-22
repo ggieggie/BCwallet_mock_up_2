@@ -13,10 +13,10 @@
   <ion-list>
     <button ion-item *ngFor="let log of logs">
       <ion-avatar item-left>
-        <img [src]="log.avatar_url">
+        <img src="assets/img/none.png">
       </ion-avatar>
-      <h2>id : {{ log.id }}</h2>
-      <h2>name : {{ log.login }}</h2>
+      <h2>address : {{ log.addresses[0] }}</h2>
+      <h2>qty : {{ log.balance.assets[0].qty }}</h2>
     </button>
   </ion-list>
 </ion-content>

@@ -283,12 +283,11 @@ var MemberlistPage = (function () {
 }());
 MemberlistPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-memberlist',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/memberlist/memberlist.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      送金先を選択してください。\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="returntabs()" color="primary">キャンセル</button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <button ion-item (click)="send()" *ngFor="let user of users">\n      <ion-avatar item-left>\n        <img [src]="user.avatar_url">\n      </ion-avatar>\n      <h2>id : {{ user.id }}</h2>\n      <h2>name : {{ user.login }}</h2>\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/memberlist/memberlist.html"*/
+        selector: 'page-memberlist',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/memberlist/memberlist.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      送金先を選択してください。\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="returntabs()" color="primary">キャンセル</button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <button ion-item (click)="send()" *ngFor="let user of users">\n      <ion-avatar item-left>\n        <img src = "assets/img/none.png">\n      </ion-avatar>\n      <h2>id : {{ user.id }}</h2>\n      <h2>name : {{ user.login }}</h2>\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/memberlist/memberlist.html"*/
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_2__providers_github_users_service_github_users_service__["a" /* GithubUsersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_github_users_service_github_users_service__["a" /* GithubUsersService */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_2__providers_github_users_service_github_users_service__["a" /* GithubUsersService */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]])
 ], MemberlistPage);
 
-var _a, _b, _c, _d;
 //# sourceMappingURL=memberlist.js.map
 
 /***/ }),
@@ -377,6 +376,7 @@ TransactionPage = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__receive_receive__ = __webpack_require__(61);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(31);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -390,16 +390,46 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var LogPage = (function () {
-    function LogPage(navCtrl, logService) {
-        var _this = this;
+    function LogPage(navCtrl, logService, http) {
         this.navCtrl = navCtrl;
         this.logService = logService;
-        logService.getLog()
-            .subscribe(function (logs) {
-            _this.logs = logs;
-        }, function (err) { return console.log(err); }, function () { });
+        this.http = http;
+        this.myAddress = "";
+        this.transaction = "";
+        this.getProfile();
+        this.listTransactions();
     }
+    //マルコインの送信
+    LogPage.prototype.listTransactions = function () {
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            "method": "listaddresstransactions",
+            "params": [this.myAddress],
+            "id": 0,
+            "chain_name": "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            console.log("transactions: " + JSON.stringify(result.result[1].balance.assets[0].qty));
+            console.log("transactions: " + JSON.stringify(result.result[1].addresses[0]));
+            console.log("transactions: " + JSON.stringify(result.result));
+            var temp = result.result.splice(0, 1);
+            _this.logs = result.result;
+        }, function (error) { return console.log(error); }, // Error getting the data
+        function () { });
+    };
+    //情報取得
+    LogPage.prototype.getProfile = function () {
+        var user = firebase.auth().currentUser;
+        this.myAddress = user.photoURL;
+    };
     LogPage.prototype.returntabs = function () {
         this.navCtrl.setRoot(__WEBPACK_IMPORTED_MODULE_3__receive_receive__["a" /* ReceivePage */]);
     };
@@ -407,11 +437,12 @@ var LogPage = (function () {
 }());
 LogPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-log',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/log/log.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      取引履歴\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <button ion-item *ngFor="let log of logs">\n      <ion-avatar item-left>\n        <img [src]="log.avatar_url">\n      </ion-avatar>\n      <h2>id : {{ log.id }}</h2>\n      <h2>name : {{ log.login }}</h2>\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/log/log.html"*/
+        selector: 'page-log',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/log/log.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      取引履歴\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <ion-list>\n    <button ion-item *ngFor="let log of logs">\n      <ion-avatar item-left>\n        <img src="assets/img/none.png">\n      </ion-avatar>\n      <h2>address : {{ log.addresses[0] }}</h2>\n      <h2>qty : {{ log.balance.assets[0].qty }}</h2>\n    </button>\n  </ion-list>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/log/log.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__["a" /* LogService */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__["a" /* LogService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__["a" /* LogService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]) === "function" && _c || Object])
 ], LogPage);
 
+var _a, _b, _c;
 //# sourceMappingURL=log.js.map
 
 /***/ }),
@@ -705,7 +736,7 @@ var AccountPage = (function () {
 }());
 AccountPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-account',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/account/account.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      アカウント情報\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="returntabs()" color="primary">戻る︎</button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="outer-content">\n  <div padding-top text-center *ngIf="username">\n    <img src="http://www.gravatar.com/avatar?d=mm&s=140" alt="avatar">\n    <h2>{{username}}</h2>\n    <h2>{{email}}</h2>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/account/account.html"*/
+        selector: 'page-account',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/account/account.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      アカウント情報\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button (click)="returntabs()" color="primary">戻る︎</button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="outer-content">\n  <div padding-top text-center *ngIf="username">\n    <img src="assets/img/none.png" alt="avatar">\n    <h2>{{username}}</h2>\n    <h2>{{email}}</h2>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/account/account.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]])
 ], AccountPage);
