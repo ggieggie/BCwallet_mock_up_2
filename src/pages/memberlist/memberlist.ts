@@ -1,22 +1,18 @@
 import { Component } from '@angular/core';
-
 import { AlertController, NavController } from 'ionic-angular';
 import { GithubUsersService } from '../../providers/github-users-service/github-users-service';
 import { User } from '../../providers/github-users-service/user';
-
 import { TabsPage } from '../tabs/tabs';
 import { ReceivePage } from '../receive/receive';
-
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
-
-
 
 @Component({
   selector: 'page-memberlist',
   templateUrl: 'memberlist.html'
 })
+
 export class MemberlistPage {
   users: User[];
 
@@ -40,11 +36,11 @@ export class MemberlistPage {
   }
 
 　public returntabs() {
-      this.navCtrl.setRoot(ReceivePage);
+    this.navCtrl.setRoot(ReceivePage);
   }
 
-  　public send() {
-     this.showPrompt();
+  public send() {
+    this.showPrompt();
   }
 
   //送金プロンプトの表示
