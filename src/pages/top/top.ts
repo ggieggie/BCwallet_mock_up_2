@@ -3,9 +3,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController, ModalController, IonicPage, LoadingController, Loading } from 'ionic-angular';
 import { AngularFire } from 'angularfire2';
 import { Firebase } from '@ionic-native/firebase';
-
-
-//import { AuthService } from '../../providers/auth-service/auth-service';
 import 'rxjs/add/operator/map';
 import { LoginPage } from '../login/login';
 
@@ -26,16 +23,13 @@ export class TopPage {
 
 
   //コンストラクタ
-  constructor(public navCtrl: NavController, public http: Http, private firebase: Firebase,
+  constructor(public navCtrl: NavController, public http: Http,
     public angularFire: AngularFire, public modalCtrl: ModalController, private loadingCtrl: LoadingController) {
-
-      if(this.maru_balance == null){
 
         console.log("topPage constructor");
         this.getProfile();
         this.getBitbalance();
         this.getMarubalance();
-      }
   }
 
   //topのreloadボタン用関数

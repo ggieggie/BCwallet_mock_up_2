@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Platform, Nav } from 'ionic-angular';
+import { Platform, Nav, ToastController,AlertController,Alert } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -24,6 +24,8 @@ tabComponent?: any;
   templateUrl: 'app.html'
 })
 export class MyApp {
+  alert: Alert;
+  platform: Platform;
   @ViewChild(Nav) navCtrl: Nav;
    rootPage:any = LoginPage;
 
@@ -32,13 +34,60 @@ export class MyApp {
     { title: '各種設定', name: 'SupportPage', component: SupportPage, icon: 'information-circle'  }
   ];
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
+   private toastCtrl: ToastController, private alertCtrl: AlertController) {
+    this.platform = platform;
     platform.ready().then(() => {
+      platform.registerBackButtonAction(() => {
+        if(this.alert){ 
+          this.alert.dismiss();
+          this.alert =null;     
+        }else{
+          this.showAlert(); 
+        }
+      });
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
     });
+  }
+
+  showAlert() {
+    this.alert = this.alertCtrl.create({
+      title: 'Exit?',
+      message: 'Do you want to exit the app?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            this.alert =null;
+          }
+        },
+        {
+          text: 'Exit',
+          handler: () => {
+            this.platform.exitApp();
+          }
+        }
+      ]
+    });
+    this.alert.present();
+  }
+
+  showToast() {
+    let toast = this.toastCtrl.create({
+      message: 'Press Again to exit',
+      duration: 2000,
+      position: 'bottom'
+    });
+
+    toast.onDidDismiss(() => {
+      console.log('Dismissed toast');
+    });
+
+    toast.present();
   }
 
   openPage(page: PageInterface) {

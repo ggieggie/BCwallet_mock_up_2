@@ -49,12 +49,12 @@ export class LoginPage {
   //ログイン処理
   login() {
     console.log('login');
-    this.showLoading()
+    this.showLoading();
     this.angularFire.auth.login({
       email: this.email,
       password: this.password
     }).then(res => {
-      console.log('res'+res)     
+      console.log('login success')     
       this.navCtrl.push(TabsPage);
     }).catch(err => {
       let alert = this.alertCtrl.create({

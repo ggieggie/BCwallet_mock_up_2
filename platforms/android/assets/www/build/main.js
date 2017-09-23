@@ -1,6 +1,6 @@
 webpackJsonp([2],{
 
-/***/ 121:
+/***/ 120:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -9,10 +9,9 @@ webpackJsonp([2],{
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__login_login__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login__ = __webpack_require__(66);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -27,15 +26,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-//import { AuthService } from '../../providers/auth-service/auth-service';
-
 
 var TopPage = (function () {
     //コンストラクタ
-    function TopPage(navCtrl, http, firebase, angularFire, modalCtrl, loadingCtrl) {
+    function TopPage(navCtrl, http, angularFire, modalCtrl, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.http = http;
-        this.firebase = firebase;
         this.angularFire = angularFire;
         this.modalCtrl = modalCtrl;
         this.loadingCtrl = loadingCtrl;
@@ -45,12 +41,10 @@ var TopPage = (function () {
         this.bit_balance = null;
         this.maru_balance = null;
         this.coinAddress = '';
-        if (this.maru_balance == null) {
-            console.log("topPage constructor");
-            this.getProfile();
-            this.getBitbalance();
-            this.getMarubalance();
-        }
+        console.log("topPage constructor");
+        this.getProfile();
+        this.getBitbalance();
+        this.getMarubalance();
     }
     //topのreloadボタン用関数
     TopPage.prototype.reload = function () {
@@ -129,7 +123,7 @@ var TopPage = (function () {
     //ログアウト
     TopPage.prototype.logout = function () {
         this.angularFire.auth.logout();
-        var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_6__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
+        var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
         loginModal.present();
     };
     //情報取得
@@ -154,9 +148,9 @@ var TopPage = (function () {
 TopPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicPage */])(),
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんの所持する仮想通貨</p>\n  <ion-list id="page2-list2">\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n  </div>\n  <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
+        selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんの所持する仮想通貨</p>\n  <ion-list id="page2-list2">\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance | number }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance | number }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n  </div>\n  <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */],
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */],
         __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* LoadingController */]])
 ], TopPage);
 
@@ -164,7 +158,7 @@ TopPage = __decorate([
 
 /***/ }),
 
-/***/ 131:
+/***/ 130:
 /***/ (function(module, exports) {
 
 function webpackEmptyAsyncContext(req) {
@@ -177,11 +171,11 @@ function webpackEmptyAsyncContext(req) {
 webpackEmptyAsyncContext.keys = function() { return []; };
 webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
 module.exports = webpackEmptyAsyncContext;
-webpackEmptyAsyncContext.id = 131;
+webpackEmptyAsyncContext.id = 130;
 
 /***/ }),
 
-/***/ 173:
+/***/ 172:
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
@@ -190,7 +184,7 @@ var map = {
 		1
 	],
 	"../pages/register/register.module": [
-		185
+		184
 	],
 	"../pages/top/top.module": [
 		339,
@@ -208,12 +202,12 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = function webpackAsyncContextKeys() {
 	return Object.keys(map);
 };
-webpackAsyncContext.id = 173;
+webpackAsyncContext.id = 172;
 module.exports = webpackAsyncContext;
 
 /***/ }),
 
-/***/ 182:
+/***/ 181:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -239,7 +233,7 @@ var TransactionPage = (function () {
         this.http = http;
         this.block = null;
         this.assets = "";
-        this.totalBalance = "";
+        this.totalBalance = null;
     }
     TransactionPage.prototype.get = function () {
         this.getBlock();
@@ -310,7 +304,7 @@ var TransactionPage = (function () {
 }());
 TransactionPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-transaction',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      Info\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content padding id="page4">\n  <h1 id="page4-heading2" style="color:#000000;text-align:center;">\n    MultiChain Information\n  </h1>\n  <div id="page4-markdown12" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Block: {{block}}\n    </h5>\n  </div>\n  <div id="page4-markdown13" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Assets: {{assets}}\n    </h5>\n  </div>\n  <div id="page4-markdown14" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      TotalBalance: {{totalBalance}}\n    </h5>\n  </div>\n  <button ion-button full icon-left (click) = "get()"><ion-icon name="md-information-circle"></ion-icon>get</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/
+        selector: 'page-transaction',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      Info\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content padding id="page4">\n  <h1 id="page4-heading2" style="color:#000000;text-align:center;">\n    MultiChain Information\n  </h1>\n  <div id="page4-markdown12" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Block: {{block | number}}\n    </h5>\n  </div>\n  <div id="page4-markdown13" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Assets: {{assets}}\n    </h5>\n  </div>\n  <div id="page4-markdown14" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      TotalBalance: {{totalBalance | number}}\n    </h5>\n  </div>\n  <button ion-button full icon-left (click) = "get()"><ion-icon name="md-information-circle"></ion-icon>get</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]])
 ], TransactionPage);
@@ -319,14 +313,14 @@ TransactionPage = __decorate([
 
 /***/ }),
 
-/***/ 183:
+/***/ 182:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LogPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_log_service_log_service__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__receive_receive__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -406,14 +400,14 @@ LogPage = __decorate([
 
 /***/ }),
 
-/***/ 184:
+/***/ 183:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LogService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -446,7 +440,7 @@ LogService = __decorate([
 
 /***/ }),
 
-/***/ 185:
+/***/ 184:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -454,7 +448,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterPageModule", function() { return RegisterPageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register__ = __webpack_require__(185);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -487,7 +481,7 @@ RegisterPageModule = __decorate([
 
 /***/ }),
 
-/***/ 186:
+/***/ 185:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -497,7 +491,7 @@ RegisterPageModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(57);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tabs_tabs__ = __webpack_require__(38);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_firebase__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_firebase__ = __webpack_require__(186);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -833,7 +827,7 @@ TutorialPage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return GithubUsersService; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -892,26 +886,26 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_login_login__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_top_top__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_top_top__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_receive_receive__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_transaction_transaction__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_log_log__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_transaction_transaction__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_log_log__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__pages_tabs_tabs__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__pages_register_register__ = __webpack_require__(185);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__pages_memberlist_memberlist__ = __webpack_require__(316);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ionic_native_status_bar__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__ionic_native_splash_screen__ = __webpack_require__(227);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_15_ngx_qrcode2__ = __webpack_require__(317);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_barcode_scanner__ = __webpack_require__(180);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__ionic_native_barcode_scanner__ = __webpack_require__(178);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__pages_account_account__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__pages_support_support__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__pages_tutorial_tutorial__ = __webpack_require__(230);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__providers_github_users_service_github_users_service__ = __webpack_require__(231);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__providers_log_service_log_service__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_21__providers_log_service_log_service__ = __webpack_require__(183);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_22_angularfire2__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_register_register_module__ = __webpack_require__(185);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__ionic_native_firebase__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__ionic_native_clipboard__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_23__pages_register_register_module__ = __webpack_require__(184);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_24__ionic_native_firebase__ = __webpack_require__(186);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_25__ionic_native_clipboard__ = __webpack_require__(180);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1053,19 +1047,66 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 var MyApp = (function () {
-    function MyApp(platform, statusBar, splashScreen) {
+    function MyApp(platform, statusBar, splashScreen, toastCtrl, alertCtrl) {
+        var _this = this;
+        this.toastCtrl = toastCtrl;
+        this.alertCtrl = alertCtrl;
         this.rootPage = __WEBPACK_IMPORTED_MODULE_4__pages_login_login__["a" /* LoginPage */];
         this.appPages = [
             { title: 'アカウント情報', name: 'AccountPage', component: __WEBPACK_IMPORTED_MODULE_5__pages_account_account__["a" /* AccountPage */], icon: 'person' },
             { title: '各種設定', name: 'SupportPage', component: __WEBPACK_IMPORTED_MODULE_6__pages_support_support__["a" /* SupportPage */], icon: 'information-circle' }
         ];
+        this.platform = platform;
         platform.ready().then(function () {
+            platform.registerBackButtonAction(function () {
+                if (_this.alert) {
+                    _this.alert.dismiss();
+                    _this.alert = null;
+                }
+                else {
+                    _this.showAlert();
+                }
+            });
             // Okay, so the platform is ready and our plugins are available.
             // Here you can do any higher level native things you might need.
             statusBar.styleDefault();
             splashScreen.hide();
         });
     }
+    MyApp.prototype.showAlert = function () {
+        var _this = this;
+        this.alert = this.alertCtrl.create({
+            title: 'Exit?',
+            message: 'Do you want to exit the app?',
+            buttons: [
+                {
+                    text: 'Cancel',
+                    role: 'cancel',
+                    handler: function () {
+                        _this.alert = null;
+                    }
+                },
+                {
+                    text: 'Exit',
+                    handler: function () {
+                        _this.platform.exitApp();
+                    }
+                }
+            ]
+        });
+        this.alert.present();
+    };
+    MyApp.prototype.showToast = function () {
+        var toast = this.toastCtrl.create({
+            message: 'Press Again to exit',
+            duration: 2000,
+            position: 'bottom'
+        });
+        toast.onDidDismiss(function () {
+            console.log('Dismissed toast');
+        });
+        toast.present();
+    };
     MyApp.prototype.openPage = function (page) {
         var params = {};
         // the nav component was found using @ViewChild(Nav)
@@ -1119,7 +1160,8 @@ __decorate([
 MyApp = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/app/app.html"*/'<ion-menu [content]="mainContent">\n\n  <ion-header>\n    <ion-toolbar>\n      <ion-title>Menu</ion-title>\n    </ion-toolbar>\n  </ion-header>\n\n  <ion-content id="side-menu21">\n\n    <ion-list id="menu-list1">\n      <ion-list-header>\n        管理・設定\n      </ion-list-header>\n      <button ion-item menuClose (click)="openAccount()">\n        <ion-icon item-start name="person"></ion-icon>\n        アカウント\n      </button>\n      <button ion-item menuClose (click)="openSupport()">\n        <ion-icon item-start name="help"></ion-icon>\n        各種お問い合わせ\n      </button>\n    </ion-list>\n\n    <ion-list>\n      <ion-list-header>\n        チュートリアル\n      </ion-list-header>\n      <button ion-item menuClose (click)="openTutorial()">\n        <ion-icon item-start name="hammer"></ion-icon>\n        チュートリアルを参照する\n      </button>\n    </ion-list>\n\n  </ion-content>\n</ion-menu>\n\n<ion-nav #mainContent [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/app/app.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */]])
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["m" /* Platform */], __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__["a" /* SplashScreen */],
+        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["o" /* ToastController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]])
 ], MyApp);
 
 //# sourceMappingURL=app.component.js.map
@@ -1136,7 +1178,7 @@ MyApp = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_github_users_service_github_users_service__ = __webpack_require__(231);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__receive_receive__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -1253,10 +1295,10 @@ MemberlistPage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__top_top__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__top_top__ = __webpack_require__(120);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__receive_receive__ = __webpack_require__(61);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__transaction_transaction__ = __webpack_require__(182);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__log_log__ = __webpack_require__(183);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__transaction_transaction__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__log_log__ = __webpack_require__(182);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1303,7 +1345,7 @@ var TabsPage = (function () {
     return TabsPage;
 }());
 TabsPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="トップ" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="受送金" tabIcon="cash"></ion-tab>\n  <ion-tab [root]="tab3Root" tabTitle="chain情報" tabIcon="md-information-circle"></ion-tab>\n  <ion-tab [root]="tab4Root" tabTitle="履歴" tabIcon="refresh"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="トップ" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="受送金" tabIcon="cash"></ion-tab>\n  <ion-tab [root]="tab3Root" tabTitle="block情報" tabIcon="md-information-circle"></ion-tab>\n  <ion-tab [root]="tab4Root" tabTitle="履歴" tabIcon="refresh"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]])
 ], TabsPage);
@@ -1318,11 +1360,11 @@ TabsPage = __decorate([
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return ReceivePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(180);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_clipboard__ = __webpack_require__(181);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ionic_native_barcode_scanner__ = __webpack_require__(178);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_clipboard__ = __webpack_require__(180);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(50);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
