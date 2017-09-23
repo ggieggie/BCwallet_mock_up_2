@@ -17,9 +17,11 @@ export class LogPage {
   transaction ="";
 
   constructor(public navCtrl: NavController, private logService: LogService,
-    public http: Http) {
-      this.getProfile();
-      this.listTransactions()
+    public http: Http) {}
+
+  get() {
+    this.getProfile();
+    this.listTransactions();
   }
 
   //履歴確認

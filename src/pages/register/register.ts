@@ -20,6 +20,7 @@ export class RegisterPage {
   displayName: string;
   authState: FirebaseAuthState;
   coinAddress = null;
+  loading: Loading;
 
   //コンストラクタ
   constructor(public modalCtrl: ModalController, private navCtrl: NavController, private alertCtrl: AlertController,private firebase: Firebase,
@@ -30,7 +31,8 @@ export class RegisterPage {
 
   //登録処理
   createUser() {
-    console.log('create user');    
+    console.log('create user');
+    this.showLoading();    
     this.angularFire.auth.createUser({
       email: this.email,
       password: this.password
@@ -43,7 +45,8 @@ export class RegisterPage {
         subTitle: String(err),
         buttons: ['OK']
       });
-        alert.present();          
+        alert.present();        
+        this.loading.dismiss();        
     });
   }
 
@@ -87,8 +90,11 @@ export class RegisterPage {
       .subscribe(result => {
         console.log("granted");
         this.viewCtrl.dismiss();
+        this.loading.dismiss();
+        
        }, error => {
         console.log(error);// Error getting the data
+        this.loading.dismiss();        
       });
   }
 
@@ -112,5 +118,14 @@ export class RegisterPage {
     var loginModal = this.modalCtrl.create(LoginPage,{},{"enableBackdropDismiss":false});    
     loginModal.present();    
     this.viewCtrl.dismiss();    
+  }
+
+  //ローディング表示
+  showLoading() {
+    this.loading = this.loadingCtrl.create({
+      content: 'now loading',
+      dismissOnPageChange: true
+    });
+    this.loading.present();
   }
 }

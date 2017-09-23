@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import { AlertController, NavController, ToastController } from 'ionic-angular';
+import { AlertController, NavController, ToastController, ViewController } from 'ionic-angular';
 
 import { TabsPage } from '../tabs/tabs';
 
@@ -17,17 +17,18 @@ export class SupportPage {
   constructor(
     public navCtrl: NavController,
     public alertCtrl: AlertController,
-    public toastCtrl: ToastController
+    public toastCtrl: ToastController,public viewCtrl: ViewController
   ) {
 
   }
 
+  //動作がおかしくなるので殺した
   ionViewDidEnter() {
     let toast = this.toastCtrl.create({
       message: 'This does not actually send a support request.',
       duration: 3000
     });
-    toast.present();
+    //toast.present();
   }
 
   submit(form: NgForm) {
@@ -66,7 +67,7 @@ export class SupportPage {
   }
 
     public returntabs() {
-      this.navCtrl.setRoot(TabsPage);
-  }
+      this.viewCtrl.dismiss();
+    }
 
 }

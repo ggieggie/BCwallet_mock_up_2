@@ -29,14 +29,14 @@ export class LoginPage {
   public createAccount() {
     console.log('to regiserPage');
     var loginModal = this.modalCtrl.create(RegisterPage,{},{"enableBackdropDismiss":false});
-    loginModal.present();    
+    loginModal.present();
     this.viewCtrl.dismiss();
   }
 
   //ログイン処理
   login() {
     console.log('logining...');
-    this.showLoading()
+    this.showLoading();
     this.angularFire.auth.login({
       email: this.email,
       password: this.password

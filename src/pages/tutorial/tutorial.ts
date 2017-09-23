@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 
-import { MenuController, NavController, Slides } from 'ionic-angular';
+import { MenuController, NavController, Slides, ViewController } from 'ionic-angular';
 
 import { Storage } from '@ionic/storage';
 
@@ -19,10 +19,11 @@ export class TutorialPage {
   constructor(
     public navCtrl: NavController,
     public menu: MenuController,
+    public viewCtrl: ViewController
   ) { }
 
   startApp() {
-    this.navCtrl.push(TabsPage);
+    this.viewCtrl.dismiss();
   }
 
   onSlideChangeStart(slider: Slides) {

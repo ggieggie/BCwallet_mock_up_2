@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AlertController, NavController } from 'ionic-angular';
+import { AlertController, NavController, ViewController } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 
 @Component({
@@ -12,13 +12,14 @@ export class AccountPage {
   username = '';
   email = '';
 
-  constructor(public alertCtrl: AlertController, public navCtrl: NavController) {
+  constructor(public alertCtrl: AlertController, public navCtrl: NavController,
+    public viewCtrl: ViewController) {
     this.getProfile();
   }
 
   //サイドバーを閉じる
   public returntabs() {
-    this.navCtrl.setRoot(TabsPage);
+    this.viewCtrl.dismiss();
   }
 
   //情報取得

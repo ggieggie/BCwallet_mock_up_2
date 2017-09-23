@@ -133,12 +133,12 @@ export class TopPage {
 
   //ログアウト
   public logout() {
-    console.log("logout")
     this.username = '';
     this.email = '';
     this.bit_balance = null;
     this.maru_balance = null;
     this.coinAddress = '';
+    console.log("logout");
     this.angularFire.auth.logout();
   }
 
