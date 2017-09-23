@@ -11,7 +11,7 @@ export class TransactionPage {
 
   block = null;
   assets = "";
-  totalBalance = "";
+  totalBalance = null;
 
   constructor(public navCtrl: NavController, public http: Http) {}
 

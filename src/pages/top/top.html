@@ -21,7 +21,7 @@
       </ion-avatar>
       <h2>ビットコイン</h2>
       <p>代表的な仮想通貨</p>
-      <p clear item-end>{{ bit_balance }} BTC</p>
+      <p clear item-end>{{ bit_balance | number }} BTC</p>
     </ion-item>
 
     <ion-item color="none" id="page2-list-item7">
@@ -30,7 +30,7 @@
       </ion-avatar>
       <h2>マルコイン</h2>
       <p>戸本・清田商店で使える仮想通貨</p>
-      <p clear item-end>{{ maru_balance }} MC</p>
+      <p clear item-end>{{ maru_balance | number }} MC</p>
     </ion-item>
   </ion-list>
   <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">
