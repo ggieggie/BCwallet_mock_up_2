@@ -25313,6 +25313,11 @@ page-register .login-content .submit-btn {
   border: 1px solid #ffffff;
 }
 
+page-register .login-content .register-btn {
+  color: #ffffff;
+  font-size: 0.8em;
+}
+
 page-tutorial .toolbar-background {
   background: transparent;
   border-color: transparent;

@@ -2,9 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav, ToastController,AlertController,Alert } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { LoginPage } from '../pages/login/login';
-
+import { TabsPage } from '../pages/tabs/tabs';
 import { AccountPage } from '../pages/account/account';
 import { SupportPage } from '../pages/support/support';
 import { TutorialPage } from '../pages/tutorial/tutorial';
@@ -27,7 +25,7 @@ export class MyApp {
   alert: Alert;
   platform: Platform;
   @ViewChild(Nav) navCtrl: Nav;
-   rootPage:any = LoginPage;
+   rootPage:any = TabsPage;
 
   appPages: PageInterface[] = [
     { title: 'アカウント情報', name: 'AccountPage', component: AccountPage, icon: 'person' },

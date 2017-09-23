@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController, ModalController, IonicPage, LoadingController, Loading } from 'ionic-angular';
-import { AngularFire } from 'angularfire2';
+import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 import { Firebase } from '@ionic-native/firebase';
 import 'rxjs/add/operator/map';
 import { LoginPage } from '../login/login';
@@ -20,16 +20,40 @@ export class TopPage {
   maru_balance = null;
   coinAddress = '';
   loading: Loading;
+  private authState: FirebaseAuthState;
+  
 
 
   //コンストラクタ
   constructor(public navCtrl: NavController, public http: Http,
     public angularFire: AngularFire, public modalCtrl: ModalController, private loadingCtrl: LoadingController) {
 
-        console.log("topPage constructor");
-        this.getProfile();
-        this.getBitbalance();
-        this.getMarubalance();
+      console.log("topPage constructor");      
+      //認証
+      angularFire.auth.subscribe((state : FirebaseAuthState) => {
+        this.authState = state;
+        console.log("check state");
+        //console.log("state: "JSON.stringify(state));
+        
+        if(this.authState != null) {
+          
+          // 認証情報がnullでない場合（認証できている場合） 
+          console.log('already logined');
+          if(this.maru_balance == null){
+            
+            this.getProfile();
+            this.getBitbalance();
+            this.getMarubalance();
+          }  
+
+        } else {
+
+          // 認証情報がnullの場合（認証できていない場合） ログインページへ
+          console.log('to loginPage');
+          let loginModal = this.modalCtrl.create(LoginPage,{},{"enableBackdropDismiss":false});
+          loginModal.present();
+        }
+      });
   }
 
   //topのreloadボタン用関数
@@ -64,7 +88,6 @@ export class TopPage {
           console.log("no balance");
           this.maru_balance = 0;
         }else{
-        console.log("name: "+JSON.stringify(result.result[0].name));          
         console.log("qty: "+JSON.stringify(result.result[0].qty));
         this.maru_balance = JSON.stringify(result.result[0].qty);
         }
@@ -110,9 +133,13 @@ export class TopPage {
 
   //ログアウト
   public logout() {
+    console.log("logout")
+    this.username = '';
+    this.email = '';
+    this.bit_balance = null;
+    this.maru_balance = null;
+    this.coinAddress = '';
     this.angularFire.auth.logout();
-    let loginModal = this.modalCtrl.create(LoginPage,{},{"enableBackdropDismiss":false});
-    loginModal.present();
   }
 
   //情報取得

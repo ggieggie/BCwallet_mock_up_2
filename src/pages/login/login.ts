@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
+import { NavController, ModalController, NavParams, ViewController, AlertController, LoadingController, Loading, IonicPage } from 'ionic-angular';
 import { TabsPage } from '../tabs/tabs';
 import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
+import { RegisterPage } from '../register/register';
 
 @IonicPage()
 @Component({
@@ -14,48 +15,35 @@ export class LoginPage {
   email: string;
   password: string;
   loading: Loading;
-  talks: FirebaseListObservable<any>;
   content: string;
   private authState: FirebaseAuthState;
 
   //コンストラクタ
   constructor(private navCtrl: NavController, private alertCtrl: AlertController,
     private loadingCtrl: LoadingController, public navParams: NavParams,
-    public angularFire: AngularFire, public viewCtrl: ViewController) {
-
-      //認証
-      angularFire.auth.subscribe((state : FirebaseAuthState) => {
-        this.authState = state;
-        console.log("check state");
-        //console.log("state: "JSON.stringify(state));
-        
-        if(this.authState != null) {
-          
-          // 認証情報がnullでない場合（認証できている場合） データを取得
-          console.log('already logined');          
-          this.navCtrl.push(TabsPage);
-        } else {
-          // 認証情報がnullの場合（認証できていない場合） 何もしない
-          console.log('lets login');
-        }
-      });
-  }
+    public angularFire: AngularFire, public viewCtrl: ViewController, public modalCtrl: ModalController) {
+      console.log("loginPage constructor");
+    }
 
   //アカウント作成
   public createAccount() {
-    this.navCtrl.push('RegisterPage');
+    console.log('to regiserPage');
+    var loginModal = this.modalCtrl.create(RegisterPage,{},{"enableBackdropDismiss":false});
+    loginModal.present();    
+    this.viewCtrl.dismiss();
   }
 
   //ログイン処理
   login() {
-    console.log('login');
-    this.showLoading();
+    console.log('logining...');
+    this.showLoading()
     this.angularFire.auth.login({
       email: this.email,
       password: this.password
     }).then(res => {
-      console.log('login success')     
-      this.navCtrl.push(TabsPage);
+      console.log('logined')     
+      this.viewCtrl.dismiss();
+      this.loading.dismiss();
     }).catch(err => {
       let alert = this.alertCtrl.create({
         title: 'ログインエラー',
