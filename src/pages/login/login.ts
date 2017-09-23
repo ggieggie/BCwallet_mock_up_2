@@ -3,8 +3,6 @@ import { NavController, NavParams, ViewController, AlertController, LoadingContr
 import { TabsPage } from '../tabs/tabs';
 import { AngularFire, FirebaseListObservable, FirebaseAuthState } from 'angularfire2';
 
-//import { AuthService } from '../../providers/auth-service/auth-service';
-
 @IonicPage()
 @Component({
   selector: 'page-login',
@@ -28,15 +26,17 @@ export class LoginPage {
       //認証
       angularFire.auth.subscribe((state : FirebaseAuthState) => {
         this.authState = state;
-        console.log("check auth state:" +JSON.stringify(state));
-    
+        console.log("check state");
+        //console.log("state: "JSON.stringify(state));
+        
         if(this.authState != null) {
           
           // 認証情報がnullでない場合（認証できている場合） データを取得
+          console.log('already logined');          
           this.navCtrl.push(TabsPage);
         } else {
           // 認証情報がnullの場合（認証できていない場合） 何もしない
-          console.log('stay login page');
+          console.log('lets login');
         }
       });
   }
@@ -49,7 +49,7 @@ export class LoginPage {
   //ログイン処理
   login() {
     console.log('login');
-    //this.showLoading()
+    this.showLoading()
     this.angularFire.auth.login({
       email: this.email,
       password: this.password
@@ -64,11 +64,11 @@ export class LoginPage {
         });
    
       alert.present();
+      this.loading.dismiss();
       console.log(err);
     });
   }
 
-  /*
   //ローディング表示
   showLoading() {
     this.loading = this.loadingCtrl.create({
@@ -78,6 +78,7 @@ export class LoginPage {
     this.loading.present();
   }
 
+  /*
   //エラー表示
   showError(text) {
     //this.loading.dismiss();

@@ -32,32 +32,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var TopPage = (function () {
     //コンストラクタ
-    function TopPage(navCtrl, http, firebase, angularFire, modalCtrl) {
+    function TopPage(navCtrl, http, firebase, angularFire, modalCtrl, loadingCtrl) {
         this.navCtrl = navCtrl;
         this.http = http;
         this.firebase = firebase;
         this.angularFire = angularFire;
         this.modalCtrl = modalCtrl;
+        this.loadingCtrl = loadingCtrl;
         //インスタンス
         this.username = '';
         this.email = '';
         this.bit_balance = null;
         this.maru_balance = null;
         this.coinAddress = '';
-        if (this.bit_balance == null) {
-            //情報取得
+        if (this.maru_balance == null) {
+            console.log("topPage constructor");
             this.getProfile();
-            //bitcoin残高確認
             this.getBitbalance();
-            //marucoin残高確認
             this.getMarubalance();
-            console.log("constructor");
         }
     }
     //topのreloadボタン用関数
     TopPage.prototype.reload = function () {
         this.getBitbalance();
-        this.getMarubalance();
+        this.reloadGetMarubalance();
     };
     //ビットコインの値を確認する関数
     TopPage.prototype.getBitbalance = function () {
@@ -80,19 +78,52 @@ var TopPage = (function () {
         this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
             .map(function (response) { return response.json(); })
             .subscribe(function (result) {
-            console.log("data: " + JSON.stringify(result));
+            //console.log("data: "+JSON.stringify(result));
             if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
-                console.log("B");
+                console.log("no balance");
                 _this.maru_balance = 0;
             }
             else {
-                console.log("A");
-                console.log("data: " + JSON.stringify(result.result[0].qty));
-                console.log("data: " + JSON.stringify(result.result[0].name));
+                console.log("name: " + JSON.stringify(result.result[0].name));
+                console.log("qty: " + JSON.stringify(result.result[0].qty));
                 _this.maru_balance = JSON.stringify(result.result[0].qty);
             }
         }, function (error) {
             console.log(error); // Error getting the data
+        });
+    };
+    //reload&マルコインの値を確認する関数
+    TopPage.prototype.reloadGetMarubalance = function () {
+        var _this = this;
+        this.showLoading();
+        var user = firebase.auth().currentUser;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            method: "getaddressbalances",
+            params: [this.coinAddress],
+            id: 0,
+            chain_name: "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            //console.log("data: "+JSON.stringify(result));
+            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
+                console.log("no balance");
+                _this.maru_balance = 0;
+            }
+            else {
+                console.log("name: " + JSON.stringify(result.result[0].name));
+                console.log("qty: " + JSON.stringify(result.result[0].qty));
+                _this.maru_balance = JSON.stringify(result.result[0].qty);
+            }
+            _this.loading.dismiss();
+        }, function (error) {
+            console.log(error); // Error getting the data
+            _this.loading.dismiss();
         });
     };
     //ログアウト
@@ -107,6 +138,17 @@ var TopPage = (function () {
         this.username = user.displayName;
         this.coinAddress = user.photoURL;
     };
+    //ローディング表示
+    TopPage.prototype.showLoading = function () {
+        if (this.loading) {
+            this.loading.dismiss();
+        }
+        this.loading = this.loadingCtrl.create({
+            content: 'now loading',
+            dismissOnPageChange: true
+        });
+        this.loading.present();
+    };
     return TopPage;
 }());
 TopPage = __decorate([
@@ -114,10 +156,10 @@ TopPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんの所持する仮想通貨</p>\n  <ion-list id="page2-list2">\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n  </div>\n  <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */],
-        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* LoadingController */]) === "function" && _f || Object])
 ], TopPage);
 
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=top.js.map
 
 /***/ }),
@@ -1212,9 +1254,10 @@ var TabsPage = (function () {
 TabsPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="トップ" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="受送金" tabIcon="cash"></ion-tab>\n  <ion-tab [root]="tab3Root" tabTitle="トークン取引" tabIcon="contacts"></ion-tab>\n  <ion-tab [root]="tab4Root" tabTitle="履歴" tabIcon="refresh"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object])
 ], TabsPage);
 
+var _a;
 //# sourceMappingURL=tabs.js.map
 
 /***/ }),
@@ -1422,7 +1465,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-//import { AuthService } from '../../providers/auth-service/auth-service';
 var LoginPage = (function () {
     //コンストラクタ
     function LoginPage(navCtrl, alertCtrl, loadingCtrl, navParams, angularFire, viewCtrl) {
@@ -1436,14 +1478,16 @@ var LoginPage = (function () {
         //認証
         angularFire.auth.subscribe(function (state) {
             _this.authState = state;
-            console.log("check auth state:" + JSON.stringify(state));
+            console.log("check state");
+            //console.log("state: "JSON.stringify(state));
             if (_this.authState != null) {
                 // 認証情報がnullでない場合（認証できている場合） データを取得
+                console.log('already logined');
                 _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_tabs__["a" /* TabsPage */]);
             }
             else {
                 // 認証情報がnullの場合（認証できていない場合） 何もしない
-                console.log('stay login page');
+                console.log('lets login');
             }
         });
     }
@@ -1455,7 +1499,7 @@ var LoginPage = (function () {
     LoginPage.prototype.login = function () {
         var _this = this;
         console.log('login');
-        //this.showLoading()
+        this.showLoading();
         this.angularFire.auth.login({
             email: this.email,
             password: this.password
@@ -1469,8 +1513,17 @@ var LoginPage = (function () {
                 buttons: ['OK']
             });
             alert.present();
+            _this.loading.dismiss();
             console.log(err);
         });
+    };
+    //ローディング表示
+    LoginPage.prototype.showLoading = function () {
+        this.loading = this.loadingCtrl.create({
+            content: 'now loading',
+            dismissOnPageChange: true
+        });
+        this.loading.present();
     };
     return LoginPage;
 }());
@@ -1479,11 +1532,10 @@ LoginPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
         selector: 'page-login',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/'<ion-content class="login-content" padding>\n  <ion-row class="logo-row">\n    <ion-col></ion-col>\n    <ion-col width-67>\n      <P>ブロックチェーン<br>デモアプリ<br>ver.0.11</P>\n      <img src="assets/img/rogo.png" alt="Ionic Logo">\n    </ion-col>\n    <ion-col></ion-col>\n  </ion-row>\n  <div class="login-box">\n    <form #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" (click)="login()">ログイン</button>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">アカウントを作成する</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */],
-        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */]) === "function" && _f || Object])
 ], LoginPage);
 
+var _a, _b, _c, _d, _e, _f;
 //# sourceMappingURL=login.js.map
 
 /***/ })

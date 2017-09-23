@@ -20,13 +20,16 @@ export class TabsPage {
   goToTop(params){
     if (!params) params = {};
     this.navCtrl.push(TopPage);
-  }goToReceive(params){
+  }
+  goToReceive(params){
     if (!params) params = {};
     this.navCtrl.push(ReceivePage);
-  }goToTransaction(params){
+  }
+  goToTransaction(params){
     if (!params) params = {};
     this.navCtrl.push(TransactionPage);
-  }goToLog(params){
+  }
+  goToLog(params){
        if (!params) params = {};
        this.navCtrl.push(LogPage);
        }
