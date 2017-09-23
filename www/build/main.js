@@ -4,15 +4,11 @@ webpackJsonp([2],{
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TopPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__ = __webpack_require__(96);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(51);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__login_login__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__register_register__ = __webpack_require__(186);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -26,141 +22,68 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-
-//import { AuthService } from '../../providers/auth-service/auth-service';
-
-
-var TopPage = (function () {
+var LoginPage = (function () {
     //コンストラクタ
-    function TopPage(navCtrl, http, firebase, angularFire, modalCtrl, loadingCtrl) {
+    function LoginPage(navCtrl, alertCtrl, loadingCtrl, navParams, angularFire, viewCtrl, modalCtrl) {
         this.navCtrl = navCtrl;
-        this.http = http;
-        this.firebase = firebase;
-        this.angularFire = angularFire;
-        this.modalCtrl = modalCtrl;
+        this.alertCtrl = alertCtrl;
         this.loadingCtrl = loadingCtrl;
-        //インスタンス
-        this.username = '';
-        this.email = '';
-        this.bit_balance = null;
-        this.maru_balance = null;
-        this.coinAddress = '';
-        if (this.maru_balance == null) {
-            console.log("topPage constructor");
-            this.getProfile();
-            this.getBitbalance();
-            this.getMarubalance();
-        }
+        this.navParams = navParams;
+        this.angularFire = angularFire;
+        this.viewCtrl = viewCtrl;
+        this.modalCtrl = modalCtrl;
+        console.log("loginPage constructor");
     }
-    //topのreloadボタン用関数
-    TopPage.prototype.reload = function () {
-        this.getBitbalance();
-        this.reloadGetMarubalance();
-    };
-    //ビットコインの値を確認する関数
-    TopPage.prototype.getBitbalance = function () {
-        this.bit_balance = 100;
-    };
-    //マルコインの値を確認する関数
-    TopPage.prototype.getMarubalance = function () {
-        var _this = this;
-        var user = firebase.auth().currentUser;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ "headers": headers });
-        var body = {
-            method: "getaddressbalances",
-            params: [this.coinAddress],
-            id: 0,
-            chain_name: "chain1"
-        };
-        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
-            .map(function (response) { return response.json(); })
-            .subscribe(function (result) {
-            //console.log("data: "+JSON.stringify(result));
-            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
-                console.log("no balance");
-                _this.maru_balance = 0;
-            }
-            else {
-                console.log("name: " + JSON.stringify(result.result[0].name));
-                console.log("qty: " + JSON.stringify(result.result[0].qty));
-                _this.maru_balance = JSON.stringify(result.result[0].qty);
-            }
-        }, function (error) {
-            console.log(error); // Error getting the data
-        });
-    };
-    //reload&マルコインの値を確認する関数
-    TopPage.prototype.reloadGetMarubalance = function () {
-        var _this = this;
-        this.showLoading();
-        var user = firebase.auth().currentUser;
-        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
-        headers.append('Content-Type', 'application/json');
-        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
-        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ "headers": headers });
-        var body = {
-            method: "getaddressbalances",
-            params: [this.coinAddress],
-            id: 0,
-            chain_name: "chain1"
-        };
-        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
-            .map(function (response) { return response.json(); })
-            .subscribe(function (result) {
-            //console.log("data: "+JSON.stringify(result));
-            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
-                console.log("no balance");
-                _this.maru_balance = 0;
-            }
-            else {
-                console.log("name: " + JSON.stringify(result.result[0].name));
-                console.log("qty: " + JSON.stringify(result.result[0].qty));
-                _this.maru_balance = JSON.stringify(result.result[0].qty);
-            }
-            _this.loading.dismiss();
-        }, function (error) {
-            console.log(error); // Error getting the data
-            _this.loading.dismiss();
-        });
-    };
-    //ログアウト
-    TopPage.prototype.logout = function () {
-        this.angularFire.auth.logout();
-        var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_6__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
+    //アカウント作成
+    LoginPage.prototype.createAccount = function () {
+        console.log('to regiserPage');
+        var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_3__register_register__["a" /* RegisterPage */], {}, { "enableBackdropDismiss": false });
         loginModal.present();
+        this.viewCtrl.dismiss();
     };
-    //情報取得
-    TopPage.prototype.getProfile = function () {
-        var user = firebase.auth().currentUser;
-        this.username = user.displayName;
-        this.coinAddress = user.photoURL;
+    //ログイン処理
+    LoginPage.prototype.login = function () {
+        var _this = this;
+        console.log('logining...');
+        this.showLoading();
+        this.angularFire.auth.login({
+            email: this.email,
+            password: this.password
+        }).then(function (res) {
+            console.log('logined');
+            _this.viewCtrl.dismiss();
+            _this.loading.dismiss();
+        }).catch(function (err) {
+            var alert = _this.alertCtrl.create({
+                title: 'ログインエラー',
+                subTitle: String(err),
+                buttons: ['OK']
+            });
+            alert.present();
+            _this.loading.dismiss();
+            console.log(err);
+        });
     };
     //ローディング表示
-    TopPage.prototype.showLoading = function () {
-        if (this.loading) {
-            this.loading.dismiss();
-        }
+    LoginPage.prototype.showLoading = function () {
         this.loading = this.loadingCtrl.create({
             content: 'now loading',
             dismissOnPageChange: true
         });
         this.loading.present();
     };
-    return TopPage;
+    return LoginPage;
 }());
-TopPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicPage */])(),
+LoginPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんの所持する仮想通貨</p>\n  <ion-list id="page2-list2">\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance | number }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance | number }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n  </div>\n  <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
+        selector: 'page-login',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/'<ion-content class="login-content" padding>\n  <ion-row class="logo-row">\n    <ion-col></ion-col>\n    <ion-col width-67>\n      <P>ブロックチェーン<br>デモアプリ<br>ver.0.11</P>\n      <img src="assets/img/rogo.png" alt="Ionic Logo">\n    </ion-col>\n    <ion-col></ion-col>\n  </ion-row>\n  <div class="login-box">\n    <form #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" (click)="login()">ログイン</button>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">アカウントを作成する</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */],
-        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* LoadingController */]])
-], TopPage);
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2__["a" /* AngularFire */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2__["a" /* AngularFire */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */]) === "function" && _g || Object])
+], LoginPage);
 
-//# sourceMappingURL=top.js.map
+var _a, _b, _c, _d, _e, _f, _g;
+//# sourceMappingURL=login.js.map
 
 /***/ }),
 
@@ -186,14 +109,14 @@ webpackEmptyAsyncContext.id = 131;
 
 var map = {
 	"../pages/login/login.module": [
-		340,
+		339,
 		1
 	],
 	"../pages/register/register.module": [
 		185
 	],
 	"../pages/top/top.module": [
-		339,
+		340,
 		0
 	]
 };
@@ -495,9 +418,9 @@ RegisterPageModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_angularfire2__ = __webpack_require__(57);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__tabs_tabs__ = __webpack_require__(38);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_firebase__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__login_login__ = __webpack_require__(121);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -515,7 +438,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var RegisterPage = (function () {
     //コンストラクタ
-    function RegisterPage(navCtrl, alertCtrl, firebase, loadingCtrl, navParams, afauth, angularFire, viewCtrl, http) {
+    function RegisterPage(modalCtrl, navCtrl, alertCtrl, firebase, loadingCtrl, navParams, afauth, angularFire, viewCtrl, http) {
+        this.modalCtrl = modalCtrl;
         this.navCtrl = navCtrl;
         this.alertCtrl = alertCtrl;
         this.firebase = firebase;
@@ -526,6 +450,7 @@ var RegisterPage = (function () {
         this.viewCtrl = viewCtrl;
         this.http = http;
         this.coinAddress = null;
+        console.log('registerPage constructor');
     }
     //登録処理
     RegisterPage.prototype.createUser = function () {
@@ -536,13 +461,7 @@ var RegisterPage = (function () {
             password: this.password
         }).then(function (_) {
             console.log('created user');
-            var alert = _this.alertCtrl.create({
-                title: '完了',
-                subTitle: 'ユーザが作成されました。',
-                buttons: ['OK']
-            });
             _this.getNewAddress();
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__tabs_tabs__["a" /* TabsPage */]);
         }).catch(function (err) {
             var alert = _this.alertCtrl.create({
                 title: 'エラー',
@@ -555,11 +474,10 @@ var RegisterPage = (function () {
     //コインアドレス生成関数
     RegisterPage.prototype.getNewAddress = function () {
         var _this = this;
-        console.log("get new address");
-        var headers = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
-        var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var options = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* RequestOptions */]({ "headers": headers });
         var body = {
             method: "getnewaddress",
             params: [],
@@ -578,12 +496,11 @@ var RegisterPage = (function () {
         });
     };
     RegisterPage.prototype.grant = function () {
-        console.log("grant");
-        var headers = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["a" /* Headers */]();
+        var _this = this;
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* Headers */]();
         headers.append('Content-Type', 'application/json');
         headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
-        var options = new __WEBPACK_IMPORTED_MODULE_4__angular_http__["d" /* RequestOptions */]({ "headers": headers });
-        console.log(this.coinAddress);
+        var options = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* RequestOptions */]({ "headers": headers });
         var body = {
             method: "grant",
             params: [this.coinAddress, "connect,send,receive,create"],
@@ -593,15 +510,14 @@ var RegisterPage = (function () {
         this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
             .map(function (response) { return response.json(); })
             .subscribe(function (result) {
-            console.log("granted: " + result);
+            console.log("granted");
+            _this.viewCtrl.dismiss();
         }, function (error) {
             console.log(error); // Error getting the data
         });
     };
     //プロフィール更新関数
     RegisterPage.prototype.updateProfile = function () {
-        var _this = this;
-        console.log('update profile');
         console.log('displayName:' + this.displayName);
         console.log('coinAddress:' + this.coinAddress);
         var user = firebase.auth().currentUser;
@@ -609,24 +525,27 @@ var RegisterPage = (function () {
             displayName: this.displayName,
             photoURL: this.coinAddress
         }).then(function (_) {
-            console.log('updated profile1');
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_3__tabs_tabs__["a" /* TabsPage */]);
+            console.log('updated profile');
         }).catch(function (err) {
             console.log(String(err));
         });
+    };
+    RegisterPage.prototype.backLoginPage = function () {
+        var loginModal = this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_5__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
+        loginModal.present();
+        this.viewCtrl.dismiss();
     };
     return RegisterPage;
 }());
 RegisterPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-register',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/register/register.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <ion-title>アカウント作成</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="login-content" padding>\n  <div class="login-box">\n\n    <form (ngSubmit)="createUser()" #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password" required></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="displayName" placeholder="DisplayName" name="displayName" [(ngModel)]="displayName" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">登録</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/register/register.html"*/,
+        selector: 'page-register',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/register/register.html"*/'<ion-header>\n  <ion-navbar color="dark">\n    <ion-title>アカウント作成</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content class="login-content" padding>\n  <div class="login-box">\n    <form #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password" required></ion-input>\n            </ion-item>\n            \n            <ion-item>\n              <ion-input type="displayName" placeholder="DisplayName" name="displayName" [(ngModel)]="displayName" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" (click)="createUser()">作成してログイン</button>\n          <button ion-button class="register-btn" block clear (click)="backLoginPage()">ログインページへもどる</button>          \n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/register/register.html"*/,
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */], __WEBPACK_IMPORTED_MODULE_5__ionic_native_firebase__["a" /* Firebase */],
-        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */], __WEBPACK_IMPORTED_MODULE_2_angularfire2__["b" /* AngularFireAuth */],
-        __WEBPACK_IMPORTED_MODULE_2_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */], __WEBPACK_IMPORTED_MODULE_4__angular_http__["b" /* Http */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* ModalController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */]) === "function" && _e || Object, typeof (_f = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */]) === "function" && _f || Object, typeof (_g = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2__["b" /* AngularFireAuth */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2__["b" /* AngularFireAuth */]) === "function" && _g || Object, typeof (_h = typeof __WEBPACK_IMPORTED_MODULE_2_angularfire2__["a" /* AngularFire */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2_angularfire2__["a" /* AngularFire */]) === "function" && _h || Object, typeof (_j = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */]) === "function" && _j || Object, typeof (_k = typeof __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Http */]) === "function" && _k || Object])
 ], RegisterPage);
 
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 //# sourceMappingURL=register.js.map
 
 /***/ }),
@@ -891,8 +810,8 @@ Object(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component__ = __webpack_require__(250);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__angular_http__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_login_login__ = __webpack_require__(66);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_top_top__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_login_login__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_top_top__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_receive_receive__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_transaction_transaction__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__pages_log_log__ = __webpack_require__(183);
@@ -978,8 +897,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__angular_http__["c" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_3_ionic_angular__["d" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* MyApp */], {}, {
                 links: [
-                    { loadChildren: '../pages/top/top.module#TopPageModule', name: 'TopPage', segment: 'top', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                    { loadChildren: '../pages/top/top.module#TopPageModule', name: 'TopPage', segment: 'top', priority: 'low', defaultHistory: [] },
                     { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] }
                 ]
             }),
@@ -1031,7 +950,7 @@ AppModule = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__ = __webpack_require__(226);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(227);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_login_login__ = __webpack_require__(66);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__pages_top_top__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_account_account__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__pages_support_support__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__pages_tutorial_tutorial__ = __webpack_require__(230);
@@ -1054,7 +973,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 var MyApp = (function () {
     function MyApp(platform, statusBar, splashScreen) {
-        this.rootPage = __WEBPACK_IMPORTED_MODULE_4__pages_login_login__["a" /* LoginPage */];
+        this.rootPage = __WEBPACK_IMPORTED_MODULE_4__pages_top_top__["a" /* TopPage */];
         this.appPages = [
             { title: 'アカウント情報', name: 'AccountPage', component: __WEBPACK_IMPORTED_MODULE_5__pages_account_account__["a" /* AccountPage */], icon: 'person' },
             { title: '各種設定', name: 'SupportPage', component: __WEBPACK_IMPORTED_MODULE_6__pages_support_support__["a" /* SupportPage */], icon: 'information-circle' }
@@ -1253,7 +1172,7 @@ MemberlistPage = __decorate([
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TabsPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__top_top__ = __webpack_require__(121);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__top_top__ = __webpack_require__(66);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__receive_receive__ = __webpack_require__(61);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__transaction_transaction__ = __webpack_require__(182);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__log_log__ = __webpack_require__(183);
@@ -1510,11 +1429,15 @@ ReceivePage = __decorate([
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return LoginPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TopPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__tabs_tabs__ = __webpack_require__(38);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_http__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_ionic_angular__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_angularfire2__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__ = __webpack_require__(96);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__ = __webpack_require__(51);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_rxjs_add_operator_map__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__login_login__ = __webpack_require__(121);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1528,79 +1451,157 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
-var LoginPage = (function () {
+
+//import { AuthService } from '../../providers/auth-service/auth-service';
+
+
+var TopPage = (function () {
     //コンストラクタ
-    function LoginPage(navCtrl, alertCtrl, loadingCtrl, navParams, angularFire, viewCtrl) {
+    function TopPage(navCtrl, http, firebase, angularFire, modalCtrl, loadingCtrl) {
         var _this = this;
         this.navCtrl = navCtrl;
-        this.alertCtrl = alertCtrl;
-        this.loadingCtrl = loadingCtrl;
-        this.navParams = navParams;
+        this.http = http;
+        this.firebase = firebase;
         this.angularFire = angularFire;
-        this.viewCtrl = viewCtrl;
+        this.modalCtrl = modalCtrl;
+        this.loadingCtrl = loadingCtrl;
+        //インスタンス
+        this.username = '';
+        this.email = '';
+        this.bit_balance = null;
+        this.maru_balance = null;
+        this.coinAddress = '';
+        console.log("topPage constructor");
         //認証
         angularFire.auth.subscribe(function (state) {
             _this.authState = state;
             console.log("check state");
             //console.log("state: "JSON.stringify(state));
             if (_this.authState != null) {
-                // 認証情報がnullでない場合（認証できている場合） データを取得
+                // 認証情報がnullでない場合（認証できている場合） 
                 console.log('already logined');
-                _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_tabs__["a" /* TabsPage */]);
+                if (_this.maru_balance == null) {
+                    _this.getProfile();
+                    _this.getBitbalance();
+                    _this.getMarubalance();
+                }
             }
             else {
-                // 認証情報がnullの場合（認証できていない場合） 何もしない
-                console.log('lets login');
+                // 認証情報がnullの場合（認証できていない場合） ログインページへ
+                console.log('to login');
+                var loginModal = _this.modalCtrl.create(__WEBPACK_IMPORTED_MODULE_6__login_login__["a" /* LoginPage */], {}, { "enableBackdropDismiss": false });
+                loginModal.present();
             }
         });
     }
-    //アカウント作成
-    LoginPage.prototype.createAccount = function () {
-        this.navCtrl.push('RegisterPage');
+    //topのreloadボタン用関数
+    TopPage.prototype.reload = function () {
+        this.getBitbalance();
+        this.reloadGetMarubalance();
     };
-    //ログイン処理
-    LoginPage.prototype.login = function () {
+    //ビットコインの値を確認する関数
+    TopPage.prototype.getBitbalance = function () {
+        this.bit_balance = 100;
+    };
+    //マルコインの値を確認する関数
+    TopPage.prototype.getMarubalance = function () {
         var _this = this;
-        console.log('login');
-        this.showLoading();
-        this.angularFire.auth.login({
-            email: this.email,
-            password: this.password
-        }).then(function (res) {
-            console.log('res' + res);
-            _this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__tabs_tabs__["a" /* TabsPage */]);
-        }).catch(function (err) {
-            var alert = _this.alertCtrl.create({
-                title: 'ログインエラー',
-                subTitle: String(err),
-                buttons: ['OK']
-            });
-            alert.present();
-            _this.loading.dismiss();
-            console.log(err);
+        var user = firebase.auth().currentUser;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            method: "getaddressbalances",
+            params: [this.coinAddress],
+            id: 0,
+            chain_name: "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            //console.log("data: "+JSON.stringify(result));
+            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
+                console.log("no balance");
+                _this.maru_balance = 0;
+            }
+            else {
+                console.log("name: " + JSON.stringify(result.result[0].name));
+                console.log("qty: " + JSON.stringify(result.result[0].qty));
+                _this.maru_balance = JSON.stringify(result.result[0].qty);
+            }
+        }, function (error) {
+            console.log(error); // Error getting the data
         });
     };
+    //reload&マルコインの値を確認する関数
+    TopPage.prototype.reloadGetMarubalance = function () {
+        var _this = this;
+        this.showLoading();
+        var user = firebase.auth().currentUser;
+        var headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            method: "getaddressbalances",
+            params: [this.coinAddress],
+            id: 0,
+            chain_name: "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            //console.log("data: "+JSON.stringify(result));
+            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
+                console.log("no balance");
+                _this.maru_balance = 0;
+            }
+            else {
+                console.log("name: " + JSON.stringify(result.result[0].name));
+                console.log("qty: " + JSON.stringify(result.result[0].qty));
+                _this.maru_balance = JSON.stringify(result.result[0].qty);
+            }
+            _this.loading.dismiss();
+        }, function (error) {
+            console.log(error); // Error getting the data
+            _this.loading.dismiss();
+        });
+    };
+    //ログアウト
+    TopPage.prototype.logout = function () {
+        console.log("logout");
+        this.angularFire.auth.logout();
+    };
+    //情報取得
+    TopPage.prototype.getProfile = function () {
+        var user = firebase.auth().currentUser;
+        this.username = user.displayName;
+        this.coinAddress = user.photoURL;
+    };
     //ローディング表示
-    LoginPage.prototype.showLoading = function () {
+    TopPage.prototype.showLoading = function () {
+        if (this.loading) {
+            this.loading.dismiss();
+        }
         this.loading = this.loadingCtrl.create({
             content: 'now loading',
             dismissOnPageChange: true
         });
         this.loading.present();
     };
-    return LoginPage;
+    return TopPage;
 }());
-LoginPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
+TopPage = __decorate([
+    Object(__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["e" /* IonicPage */])(),
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-login',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/'<ion-content class="login-content" padding>\n  <ion-row class="logo-row">\n    <ion-col></ion-col>\n    <ion-col width-67>\n      <P>ブロックチェーン<br>デモアプリ<br>ver.0.11</P>\n      <img src="assets/img/rogo.png" alt="Ionic Logo">\n    </ion-col>\n    <ion-col></ion-col>\n  </ion-row>\n  <div class="login-box">\n    <form #registerForm="ngForm">\n      <ion-row>\n        <ion-col>\n          <ion-list inset>\n\n            <ion-item>\n              <ion-input type="email" placeholder="Email" name="email" [(ngModel)]="email" required></ion-input>\n            </ion-item>\n\n            <ion-item>\n              <ion-input type="password" placeholder="Password" name="password" [(ngModel)]="password" required></ion-input>\n            </ion-item>\n\n          </ion-list>\n        </ion-col>\n      </ion-row>\n\n      <ion-row>\n        <ion-col class="signup-col">\n          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" (click)="login()">ログイン</button>\n          <button ion-button class="register-btn" block clear (click)="createAccount()">アカウントを作成する</button>\n        </ion-col>\n      </ion-row>\n\n    </form>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/login/login.html"*/,
+        selector: 'page-top',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トップ\n    </ion-title>\n      <ion-buttons end>\n        <button ion-button (click)="logout()" color="primary">ログアウト︎</button>\n      </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding id="page2">\n  <p>{{username}}さんの所持する仮想通貨</p>\n  <ion-list id="page2-list2">\n    <ion-item color="none" id="page2-list-item6">\n      <ion-avatar item-left>\n        <img src="assets/img/BBJaAAcORgyRBgcyKFlM_bitcoin.png" />\n      </ion-avatar>\n      <h2>ビットコイン</h2>\n      <p>代表的な仮想通貨</p>\n      <p clear item-end>{{ bit_balance | number }} BTC</p>\n    </ion-item>\n\n    <ion-item color="none" id="page2-list-item7">\n      <ion-avatar item-left>\n        <img src="assets/img/ffnnctKNQeGycvDnmm0O_maru.jpg" />\n      </ion-avatar>\n      <h2>マルコイン</h2>\n      <p>戸本・清田商店で使える仮想通貨</p>\n      <p clear item-end>{{ maru_balance | number }} MC</p>\n    </ion-item>\n  </ion-list>\n  <div id="page3-markdown6" style="text-align:center;" class="show-list-numbers-and-dots">\n  </div>\n  <button ion-button full icon-left (click) = "reload()"><ion-icon name="refresh"></ion-icon>reload</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/top/top.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["a" /* AlertController */],
-        __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["l" /* NavParams */],
-        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["p" /* ViewController */]])
-], LoginPage);
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_2_ionic_angular__["k" /* NavController */], __WEBPACK_IMPORTED_MODULE_1__angular_http__["b" /* Http */], __WEBPACK_IMPORTED_MODULE_4__ionic_native_firebase__["a" /* Firebase */],
+        __WEBPACK_IMPORTED_MODULE_3_angularfire2__["a" /* AngularFire */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["i" /* ModalController */], __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["g" /* LoadingController */]])
+], TopPage);
 
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=top.js.map
 
 /***/ })
 

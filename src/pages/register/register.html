@@ -6,8 +6,7 @@
 
 <ion-content class="login-content" padding>
   <div class="login-box">
-
-    <form (ngSubmit)="createUser()" #registerForm="ngForm">
+    <form #registerForm="ngForm">
       <ion-row>
         <ion-col>
           <ion-list inset>
@@ -30,7 +29,8 @@
 
       <ion-row>
         <ion-col class="signup-col">
-          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid">登録</button>
+          <button ion-button class="submit-btn" full type="submit" [disabled]="!registerForm.form.valid" (click)="createUser()">作成してログイン</button>
+          <button ion-button class="register-btn" block clear (click)="backLoginPage()">ログインページへもどる</button>          
         </ion-col>
       </ion-row>
 

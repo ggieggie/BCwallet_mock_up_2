@@ -2,9 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { Platform, Nav } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
-import { LoginPage } from '../pages/login/login';
-
+import { TopPage } from '../pages/top/top';
 import { AccountPage } from '../pages/account/account';
 import { SupportPage } from '../pages/support/support';
 import { TutorialPage } from '../pages/tutorial/tutorial';
@@ -25,7 +23,7 @@ tabComponent?: any;
 })
 export class MyApp {
   @ViewChild(Nav) navCtrl: Nav;
-   rootPage:any = LoginPage;
+   rootPage:any = TopPage;
 
   appPages: PageInterface[] = [
     { title: 'アカウント情報', name: 'AccountPage', component: AccountPage, icon: 'person' },
