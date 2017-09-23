@@ -220,6 +220,7 @@ module.exports = webpackAsyncContext;
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TransactionPage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(25);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -231,19 +232,90 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 
 
+
 var TransactionPage = (function () {
-    function TransactionPage(navCtrl) {
+    function TransactionPage(navCtrl, http) {
         this.navCtrl = navCtrl;
+        this.http = http;
+        this.block = null;
+        this.assets = "";
+        this.totalBalance = "";
     }
+    TransactionPage.prototype.get = function () {
+        this.getBlock();
+        this.getAssets();
+    };
+    //ブロック数確認
+    TransactionPage.prototype.getBlock = function () {
+        var _this = this;
+        var user = firebase.auth().currentUser;
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            method: "getinfo",
+            params: [],
+            id: 0,
+            chain_name: "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            //console.log("data: "+JSON.stringify(result));
+            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
+                console.log("no balance");
+                _this.block = "error";
+            }
+            else {
+                console.log("info: " + JSON.stringify(result.result));
+                _this.block = JSON.stringify(result.result.blocks);
+            }
+        }, function (error) {
+            console.log(error); // Error getting the data
+        });
+    };
+    //assets確認
+    TransactionPage.prototype.getAssets = function () {
+        var _this = this;
+        var user = firebase.auth().currentUser;
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["a" /* Headers */]();
+        headers.append('Content-Type', 'application/json');
+        headers.append('Authorization', 'Basic bXVsdGljaGFpbnJwYzoyR2tXWjlnMjhYTDNBUHpXcGJVM0p4TmlYSHBSRWRmVTRmWTl1YXdYOWpoWg==');
+        var options = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["d" /* RequestOptions */]({ "headers": headers });
+        var body = {
+            method: "listassets",
+            params: [],
+            id: 0,
+            chain_name: "chain1"
+        };
+        this.http.post("https://yqqc8r7eeh.execute-api.us-west-2.amazonaws.com/prod/ab", body, options)
+            .map(function (response) { return response.json(); })
+            .subscribe(function (result) {
+            //console.log("data: "+JSON.stringify(result));
+            if (JSON.stringify(result.result) == "null" || JSON.stringify(result.result) == "[]") {
+                console.log("no balance");
+                _this.assets = "error";
+            }
+            else {
+                console.log("info: " + JSON.stringify(result.result));
+                _this.assets = JSON.stringify(result.result[0].name);
+                _this.totalBalance = JSON.stringify(result.result[0].issueqty);
+            }
+        }, function (error) {
+            console.log(error); // Error getting the data
+        });
+    };
     return TransactionPage;
 }());
 TransactionPage = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({
-        selector: 'page-transaction',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      トークン取引\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content padding id="page4">\n  <h1 id="page4-heading2" style="color:#000000;text-align:center;">\n    トレンド\n  </h1>\n  <div id="page4-container3"></div>\n  <h4 id="page4-heading3" style="color:#000000;text-align:center;">\n    独自トークンを使ってみよう\n  </h4>\n  <div id="page4-markdown12" class="show-list-numbers-and-dots">\n    <p style="color:#000000;">\n      １.　取引したいトークン名を検索して選択\n    </p>\n  </div>\n  <div id="page4-markdown13" class="show-list-numbers-and-dots">\n    <p style="color:#000000;">\n      ２.　買い、もしくは売りを選択\n    </p>\n  </div>\n  <div id="page4-markdown14" class="show-list-numbers-and-dots">\n    <p style="color:#000000;">\n      ３.　売買する価格と注文量を入力\n    </p>\n  </div>\n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/
+        selector: 'page-transaction',template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/'<ion-header>\n  <ion-navbar>\n    <button ion-button menuToggle>\n      <ion-icon name="menu"></ion-icon>\n    </button>\n    <ion-title>\n      Info\n    </ion-title>\n  </ion-navbar>\n</ion-header>\n<ion-content padding id="page4">\n  <h1 id="page4-heading2" style="color:#000000;text-align:center;">\n    MultiChain Information\n  </h1>\n  <div id="page4-markdown12" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Block: {{block}}\n    </h5>\n  </div>\n  <div id="page4-markdown13" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      Assets: {{assets}}\n    </h5>\n  </div>\n  <div id="page4-markdown14" class="show-list-numbers-and-dots">\n    <h5 style="color:#000000;">\n      TotalBalance: {{totalBalance}}\n    </h5>\n  </div>\n  <button ion-button full icon-left (click) = "get()"><ion-icon name="md-information-circle"></ion-icon>get</button>  \n</ion-content>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/transaction/transaction.html"*/
     }),
-    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_http__["b" /* Http */]) === "function" && _b || Object])
 ], TransactionPage);
 
+var _a, _b;
 //# sourceMappingURL=transaction.js.map
 
 /***/ }),
@@ -1232,7 +1304,7 @@ var TabsPage = (function () {
     return TabsPage;
 }());
 TabsPage = __decorate([
-    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="トップ" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="受送金" tabIcon="cash"></ion-tab>\n  <ion-tab [root]="tab3Root" tabTitle="トークン取引" tabIcon="contacts"></ion-tab>\n  <ion-tab [root]="tab4Root" tabTitle="履歴" tabIcon="refresh"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/
+    Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["n" /* Component */])({template:/*ion-inline-start:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/'<ion-tabs>\n  <ion-tab [root]="tab1Root" tabTitle="トップ" tabIcon="home"></ion-tab>\n  <ion-tab [root]="tab2Root" tabTitle="受送金" tabIcon="cash"></ion-tab>\n  <ion-tab [root]="tab3Root" tabTitle="chain情報" tabIcon="md-information-circle"></ion-tab>\n  <ion-tab [root]="tab4Root" tabTitle="履歴" tabIcon="refresh"></ion-tab>\n</ion-tabs>\n'/*ion-inline-end:"/Users/sumiden/dev/wallet2/src/pages/tabs/tabs.html"*/
     }),
     __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["k" /* NavController */]])
 ], TabsPage);
