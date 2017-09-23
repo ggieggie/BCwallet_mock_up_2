@@ -25260,6 +25260,13 @@ page-login .login-content .register-btn {
   font-size: 0.8em;
 }
 
+page-receive {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
 page-register .login-content {
   background: #FFF2C1;
 }
