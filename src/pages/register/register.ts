@@ -112,27 +112,5 @@ export class RegisterPage {
     }).catch(err => {
       console.log(String(err));
     });
-
-/*
-    this.firebaseAuthState.auth.updateProfile({
-      displayName: this.displayName,
-      photoURL: this.coinAddress
-    }).then(_ => {
-      console.log('updated profile1');
-      this.navCtrl.push(TabsPage);      
-    }).catch(err => {
-      console.log(String(err));
-    });
-
-    this.authState.auth.updateProfile({
-      displayName: this.displayName,
-      photoURL: this.coinAddress
-    }).then(_ => {
-      console.log('updated profile2');
-      this.navCtrl.push(TabsPage);      
-    }).catch(err => {
-      console.log(err);
-    });
-*/
   }
 }

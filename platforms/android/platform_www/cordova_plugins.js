@@ -48,6 +48,14 @@ module.exports = [
         "clobbers": [
             "FirebasePlugin"
         ]
+    },
+    {
+        "id": "cordova-clipboard.Clipboard",
+        "file": "plugins/cordova-clipboard/www/clipboard.js",
+        "pluginId": "cordova-clipboard",
+        "clobbers": [
+            "cordova.plugins.clipboard"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -61,7 +69,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.3.1",
     "ionic-plugin-keyboard": "2.2.1",
     "phonegap-plugin-barcodescanner": "6.0.8",
-    "cordova-plugin-firebase": "0.1.24"
+    "cordova-plugin-firebase": "0.1.24",
+    "cordova-clipboard": "1.0.0"
 };
 // BOTTOM OF METADATA
 });

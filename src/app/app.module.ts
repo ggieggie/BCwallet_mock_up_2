@@ -18,8 +18,6 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 
-//import { AuthService } from '../providers/auth-service/auth-service';
-
 import { AccountPage } from '../pages/account/account';
 import { SupportPage } from '../pages/support/support';
 import { TutorialPage } from '../pages/tutorial/tutorial';
@@ -30,6 +28,7 @@ import { LogService } from '../providers/log-service/log-service';
 import { AngularFireModule, AuthMethods, AuthProviders } from 'angularfire2';
 import { RegisterPageModule } from '../pages/register/register.module';
 import { Firebase } from '@ionic-native/firebase';
+import { Clipboard } from '@ionic-native/clipboard';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBj1l9IqIg-3OlgpS1wnS5xXcbYE4cdDmc",
@@ -86,10 +85,10 @@ export const firebaseConfig = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     BarcodeScanner,
-    //AuthService,
     GithubUsersService,
     LogService,
-    Firebase
+    Firebase,
+    Clipboard
   ]
 })
 export class AppModule {

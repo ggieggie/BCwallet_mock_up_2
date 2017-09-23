@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import { Clipboard } from '@ionic-native/clipboard';
 import { AlertController, NavController  } from 'ionic-angular';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
@@ -20,7 +21,7 @@ export class ReceivePage {
 
 　//コンストラクタ
   constructor(private barcodeScanner: BarcodeScanner, public alertCtrl: AlertController,
-     public navCtrl: NavController, public http: Http) {
+     public navCtrl: NavController, public http: Http, private clipboard: Clipboard) {
 
       this.getProfile();
 
@@ -166,6 +167,17 @@ showRadio() {
   public getProfile() {
     var user = firebase.auth().currentUser;
     this.myAddress = user.photoURL;
+  }
+
+  //copy
+  public copy(){
+    this.clipboard.copy(this.myAddress);
+    let alert = this.alertCtrl.create({
+      title: 'clipboard',
+      subTitle: 'コピーしました',
+      buttons: ['OK']
+      });
+    alert.present();
   }
 
 }

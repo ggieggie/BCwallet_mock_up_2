@@ -107,4 +107,7 @@
         <param name="ios-package" value="FirebasePlugin" />
         <param name="onload" value="true" />
     </feature>
+    <feature name="Clipboard">
+        <param name="ios-package" value="CDVClipboard" />
+    </feature>
 </widget>

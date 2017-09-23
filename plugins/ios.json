@@ -31,6 +31,9 @@
         },
         "cordova-plugin-firebase": {
             "PACKAGE_NAME": "io.ionic.starter"
+        },
+        "cordova-clipboard": {
+            "PACKAGE_NAME": "io.ionic.starter"
         }
     },
     "dependent_plugins": {
